@@ -4,7 +4,7 @@ import Home from "../views/Home.vue";
 import Signup from "../views/Signup.vue";
 import Login from "../views/Login.vue";
 import Logout from "../views/Logout.vue";
-// import UserShow from "../views/Users/UserShow.vue";
+import UsersShow from "../views/Users/Show.vue";
 import TripsIndex from "../views/Trips/Index.vue";
 import TripsShow from "../views/Trips/Show.vue";
 import TripsNew from "../views/Trips/New.vue";
@@ -24,7 +24,7 @@ const routes = [
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: Login },
   { path: "/logout", name: "logout", component: Logout },
-  // { path: "/user/:id", name: "user-show", component: UserShow },
+  { path: "/user/:id", name: "users-show", component: UsersShow },
   { path: "/trips/mytrips", name: "trips-index", component: TripsIndex },
   { path: "/trips/:id", name: "trips-show", component: TripsShow },
   { path: "/trips", name: "trips-new", component: TripsNew },
