@@ -1,5 +1,7 @@
 <template>
   <div class="trips-index">
+    <h1>Create a New Trip</h1>
+    <router-link to="/trips">Create</router-link>
     <div v-for="trip in trips" v-bind:key="trip.id">
       <h2>{{ trip.name }}</h2>
       <img :src="trip.image_url" alt="" />
