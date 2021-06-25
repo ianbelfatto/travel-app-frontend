@@ -4,11 +4,16 @@
     <img :src="trip.image_url" alt="" />
     <p>{{ trip.city }}</p>
     <p>{{ trip.state }}</p>
-    <div v-for="trip_business in trip_businesses" v-bind:key="trip_business.id">
+    <!-- <p>{{ trip.trip_businesses[0].business.name }}</p> -->
+    <!-- <div v-for="trip_business in trip_businesses" v-bind:key="trip_business.id">
       <p>Restaurants: {{ trip.trip_businesses[0].business }}</p>
       <p>Restaurants: {{ trip.trip_business.name }}</p>
-    </div>
-    <router-link to="/trips">All Trips</router-link>
+    </div> -->
+    <router-link to="/trips/mytrips">All Trips</router-link>
+    <br />
+    <router-link :to="`/trips/${trip.id}/edit`">Edit Trip</router-link>
+    <br />
+    <button v-on:click="destroyTrip()">Delete Post</button>
   </div>
 </template>
 
@@ -17,7 +22,9 @@ import axios from "axios";
 export default {
   data: function () {
     return {
-      trip: { user: {} },
+      trip: {
+        name: "",
+      },
     };
   },
   created: function () {
@@ -25,6 +32,16 @@ export default {
       console.log("Trip object", response.data);
       this.trip = response.data;
     });
+  },
+  methods: {
+    destroyTrip: function () {
+      if (confirm("Are you sure?\nClick OK to delete!")) {
+        axios.delete(`/trips/${this.trip.id}`).then((response) => {
+          console.log(response.data);
+          this.$router.push("/trips/mytrips");
+        });
+      }
+    },
   },
 };
 </script>
