@@ -7,6 +7,8 @@ import Logout from "../views/Logout.vue";
 // import UserShow from "../views/Users/UserShow.vue";
 import TripsIndex from "../views/Trips/Index.vue";
 import TripsShow from "../views/Trips/Show.vue";
+import TripsNew from "../views/Trips/New.vue";
+import TripsEdit from "../views/Trips/Edit.vue";
 
 Vue.use(VueRouter);
 
@@ -23,8 +25,10 @@ const routes = [
   { path: "/login", name: "login", component: Login },
   { path: "/logout", name: "logout", component: Logout },
   // { path: "/user/:id", name: "user-show", component: UserShow },
-  { path: "/trips", name: "trips-index", component: TripsIndex },
+  { path: "/trips/mytrips", name: "trips-index", component: TripsIndex },
   { path: "/trips/:id", name: "trips-show", component: TripsShow },
+  { path: "/trips", name: "trips-new", component: TripsNew },
+  { path: "/trips/:id/edit", name: "trips-edit", component: TripsEdit },
 ];
 
 const router = new VueRouter({
