@@ -1,9 +1,7 @@
 <template>
   <div class="users-show">
-    <h2>{{ user.name }}</h2>
-    <img v-bind:src="user.url" v-bind:alt="user.name" />
-    <p>Width: {{ user.width }}</p>
-    <p>Height: {{ user.height }}</p>
+    <!-- <h2>{{ user }}</h2> -->
+    <!-- <img v-bind:src="user.url" v-bind:alt="user.name" /> -->
   </div>
 </template>
 
@@ -16,11 +14,10 @@ export default {
     };
   },
   created: function () {
-    axios.get(`/user/${this.$route.params.id}`).then((response) => {
-      console.log("user show", response);
+    axios.get(`/users/${this.$route.params.id}`).then((response) => {
+      console.log("user show", response.data);
       this.user = response.data;
     });
   },
-  methods: {},
 };
 </script>

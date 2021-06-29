@@ -9,6 +9,7 @@ import TripsIndex from "../views/Trips/Index.vue";
 import TripsShow from "../views/Trips/Show.vue";
 import TripsNew from "../views/Trips/New.vue";
 import TripsEdit from "../views/Trips/Edit.vue";
+import BusinessesIndex from "../views/Businesses/Index.vue";
 
 Vue.use(VueRouter);
 
@@ -24,11 +25,12 @@ const routes = [
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: Login },
   { path: "/logout", name: "logout", component: Logout },
-  { path: "/user/:id", name: "users-show", component: UsersShow },
+  { path: "/users/:id", name: "users-show", component: UsersShow },
   { path: "/trips/mytrips", name: "trips-index", component: TripsIndex },
   { path: "/trips/:id", name: "trips-show", component: TripsShow },
   { path: "/trips", name: "trips-new", component: TripsNew },
   { path: "/trips/:id/edit", name: "trips-edit", component: TripsEdit },
+  { path: "/businesses", name: "businesses-index", component: BusinessesIndex },
 ];
 
 const router = new VueRouter({

@@ -13,7 +13,7 @@
 
       <router-link to="/trips/mytrips" v-if="isLoggedIn()">Trips</router-link>
 
-      <!-- <router-link v-bind:to="`/user/${this.user.id}`">More details</router-link> -->
+      <!-- <router-link v-bind:to="`/users/${user.id}`">More details</router-link> -->
     </div>
     <router-view />
   </div>
