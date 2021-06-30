@@ -7,6 +7,7 @@
     Location:
     <input type="text" v-model="location" />
     <button v-on:click="runSearch()">Search</button>
+    <p>{{ businesses }}</p>
   </div>
 </template>
 
@@ -23,8 +24,8 @@ export default {
   methods: {
     runSearch: function () {
       var params = {
-        term: this.term,
-        location: this.location,
+        term: "",
+        location: "",
       };
       axios.get("/businesses/", params).then((response) => {
         console.log("Businesses array", response.data);
