@@ -9,11 +9,11 @@
       <p>Restaurants: {{ trip.trip_businesses[0].business }}</p>
       <p>Restaurants: {{ trip.trip_business.name }}</p>
     </div> -->
-    <router-link to="/trips/mytrips">All Trips</router-link>
+    <router-link tag="button" to="/trips/mytrips">All Trips</router-link>
     <br />
-    <router-link :to="`/trips/${trip.id}/edit`">Edit Trip</router-link>
+    <router-link tag="button" :to="`/trips/${trip.id}/edit`">Edit Trip</router-link>
     <br />
-    <button v-on:click="destroyTrip()">Delete Post</button>
+    <button v-on:click="destroyTrip()">Delete Trip</button>
   </div>
 </template>
 
