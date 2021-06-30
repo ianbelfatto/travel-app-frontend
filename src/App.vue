@@ -12,9 +12,9 @@
 
       <router-link to="/trips/mytrips" v-if="isLoggedIn()">Trips</router-link>
       |
-
-      <router-link :to="`/users/:id`">User</router-link>
-      |
+      <!-- 
+      <router-link :to="`/users/${user.id}`">User</router-link>
+      | -->
 
       <router-link to="/logout" v-if="isLoggedIn()">Logout</router-link>
       |
