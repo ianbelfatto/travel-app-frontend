@@ -1,7 +1,10 @@
 <template>
   <div class="users-show">
-    <h2>{{ user.first_name }}</h2>
+    <!-- <h2>{{ user.first_name }}</h2> -->
     <!-- <img v-bind:src="user.url" v-bind:alt="user.name" /> -->
+    <p>First Name: {{ user.first_name }}</p>
+    <p>Last Name: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
   </div>
 </template>
 
@@ -10,7 +13,7 @@ import axios from "axios";
 export default {
   data: function () {
     return {
-      user: [],
+      user: {},
     };
   },
   created: function () {
