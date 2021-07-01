@@ -6,8 +6,20 @@
     <br />
     Location:
     <input type="text" v-model="location" />
+    <br />
     <button v-on:click="runSearch()">Search</button>
-    <p>{{ businesses }}</p>
+    <br />
+    <br />
+    <div v-for="business in businesses" v-bind:key="business.id">
+      <b>{{ business.name }}</b>
+      <br />
+      <i>{{ business.location.display_address[0] + business.location.display_address[1] }}</i>
+      <br />
+      <br />
+      <router-link tag="button" :to="`/businesses/${business.id}`">More Info</router-link>
+      <br />
+      <br />
+    </div>
   </div>
 </template>
 
@@ -23,11 +35,7 @@ export default {
   },
   methods: {
     runSearch: function () {
-      var params = {
-        term: "",
-        location: "",
-      };
-      axios.get("/businesses/", params).then((response) => {
+      axios.get(`/businesses?terms=${this.term}&location=${this.location}`).then((response) => {
         console.log("Businesses array", response.data);
         this.businesses = response.data;
       });
