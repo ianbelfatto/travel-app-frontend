@@ -12,9 +12,9 @@
 
       <router-link to="/trips/mytrips" v-if="isLoggedIn()">Trips</router-link>
       |
-      <!-- 
-      <router-link :to="`/users/${user.id}`">User</router-link>
-      | -->
+
+      <router-link :to="`/users/${getUserID()}`">User</router-link>
+      |
 
       <router-link to="/logout" v-if="isLoggedIn()">Logout</router-link>
       |
@@ -57,6 +57,11 @@ export default {
     isLoggedIn: function () {
       return localStorage.getItem("jwt");
     },
+    getUserID: function () {
+      return localStorage.getItem("id");
+    },
   },
 };
 </script>
+
+create method to retrieve id from localstorage, call method in nav bar
