@@ -4,6 +4,17 @@
     <img :src="trip.image_url" alt="" />
     <p>{{ trip.city }}</p>
     <p>{{ trip.state }}</p>
+    <h2>Businesses</h2>
+    <div v-for="business in trip.trip_businesses" v-bind:key="business.id">
+      <!-- <p>{{ business }}</p> -->
+      <h3>Name: {{ business.business.name }}</h3>
+      <img :src="business.business.image_url" alt="" />
+      <p>Open: {{ business.business.open }}</p>
+      <p>Phone: {{ business.business.phone || "No Number Listed" }}</p>
+      <p>Phone: {{ business.business.location[0] + "," + " " + business.business.location[1] }}</p>
+      <p>My Comments: {{ business.comments }}</p>
+    </div>
+
     <router-link tag="button" to="/trips/mytrips">All Trips</router-link>
     <br />
     <router-link tag="button" :to="`/trips/${trip.id}/edit`">Edit Trip</router-link>
@@ -19,6 +30,9 @@ export default {
     return {
       trip: {
         name: "",
+      },
+      trip_businesses: {
+        business: {},
       },
     };
   },
