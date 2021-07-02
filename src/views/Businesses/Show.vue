@@ -10,7 +10,8 @@
     <h3>Trips</h3>
     <div v-for="trip in trips" v-bind:key="trip.id">
       <p>{{ trip.name }}</p>
-      <!-- <router-link tag="button" :to="`${addBusinessToTrip()} `">Add to this Trip</router-link> -->
+      <p>{{ trip.id }}</p>
+      <button @click="addBusinessToTrip(trip)">Add</button>
     </div>
     <br />
   </div>
@@ -22,6 +23,7 @@ export default {
   data: function () {
     return {
       business: {},
+      trips: [],
     };
   },
   created: function () {
@@ -36,18 +38,21 @@ export default {
       }),
     ]);
   },
-  // methods: {
-  //   addBusinessToTrip: function () {
-  //     axios
-  //       .post("/tripbusiness", // FIGURE OUT WHAT TO PUT HERE TO POST TO SPECIFIC TRIP ID)
-  //       .then((response) => {
-  //         console.log(response.data);
-  //         this.$router.push("/trips/mytrips");
-  //       })
-  //       .catch((error) => {
-  //         this.errors = error.response.data.errors;
-  //       });
-  //   },
-  // },
+  methods: {
+    addBusinessToTrip: function (trip) {
+      const formData = new FormData();
+      formData.append("trip_id", trip.id);
+      formData.append("yelp_business_id", this.business.id);
+      axios
+        .post("/tripbusiness", formData)
+        .then((response) => {
+          console.log(response.data);
+          this.$router.push("/trips/mytrips");
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+    },
+  },
 };
 </script>
