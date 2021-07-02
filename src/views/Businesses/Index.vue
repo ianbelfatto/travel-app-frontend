@@ -13,7 +13,7 @@
     <div v-for="business in businesses" v-bind:key="business.id">
       <b>{{ business.name }}</b>
       <br />
-      <i>{{ business.location.display_address[0] + business.location.display_address[1] }}</i>
+      <i>{{ business.location.display_address[0] + "," + " " + business.location.display_address[1] }}</i>
       <br />
       <br />
       <router-link tag="button" :to="`/businesses/${business.id}`">More Info</router-link>
