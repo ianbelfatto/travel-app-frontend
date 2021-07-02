@@ -3,6 +3,7 @@
     <p>First Name: {{ user.first_name }}</p>
     <p>Last Name: {{ user.last_name }}</p>
     <p>Email: {{ user.email }}</p>
+    <button v-on:click="destroyUser()">Delete Account</button>
   </div>
 </template>
 
@@ -19,6 +20,18 @@ export default {
       console.log("User object", response.data);
       this.user = response.data;
     });
+  },
+  methods: {
+    destroyUser: function () {
+      if (confirm("Are you sure?\nClick OK to delete!")) {
+        axios.delete(`/users/${this.user.id}`).then((response) => {
+          localStorage.removeItem("jwt");
+          localStorage.removeItem("id");
+          console.log(response.data);
+          this.$router.push("/signup");
+        });
+      }
+    },
   },
 };
 </script>
