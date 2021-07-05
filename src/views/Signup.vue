@@ -20,6 +20,10 @@
         <input type="email" class="form-control" v-model="newUserParams.email" />
       </div>
       <div class="form-group">
+        <label>Profile Picture URL:</label>
+        <input type="text" class="form-control" v-model="newUserParams.image_url" />
+      </div>
+      <div class="form-group">
         <label>Password:</label>
         <input type="password" class="form-control" v-model="newUserParams.password" />
       </div>
