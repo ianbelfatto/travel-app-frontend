@@ -1,17 +1,20 @@
 <template>
   <div class="businesses-show">
     <h2>{{ business.name }}</h2>
+    <img :src="business.image_url" alt="" />
     <p>Open Now?: {{ business.open }}</p>
     <p>Rating: {{ business.rating }} / 5</p>
     <p>Location: {{ business.location[0] + "," + " " + business.location[1] }}</p>
     <router-link tag="button" to="/businesses/">Back to Search</router-link>
     <br />
     <br />
-    <h3>Trips</h3>
+    <h3>My Trips</h3>
     <div v-for="trip in trips" v-bind:key="trip.id">
-      <p>{{ trip.name }}</p>
-      <p>{{ trip.id }}</p>
-      <button @click="addBusinessToTrip(trip)">Add</button>
+      <i>{{ trip.name }}</i>
+      <br />
+      <button @click="addBusinessToTrip(trip)">Add to This Trip</button>
+      <br />
+      <br />
     </div>
     <br />
   </div>
