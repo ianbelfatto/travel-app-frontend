@@ -26,7 +26,7 @@ const routes = [
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: Login },
   { path: "/logout", name: "logout", component: Logout },
-  { path: "/users/:id", name: "users-show", component: UsersShow },
+  { path: "/users/me", name: "users-show", component: UsersShow },
 
   { path: "/trips/mytrips", name: "trips-index", component: TripsIndex },
   { path: "/trips/:id", name: "trips-show", component: TripsShow },
