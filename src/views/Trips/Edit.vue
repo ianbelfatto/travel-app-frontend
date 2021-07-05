@@ -19,6 +19,10 @@
         <label>State:</label>
         <input type="text" class="form-control" v-model="editTripParams.state" />
       </div>
+      <div class="form-group">
+        <label>Cover Image:</label>
+        <input type="text" class="form-control" v-model="editTripParams.image_url" />
+      </div>
       <br />
       <router-link :to="`/trips/${editTripParams.id}`" tag="button">Back to Current Trip</router-link>
       |
