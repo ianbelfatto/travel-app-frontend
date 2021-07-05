@@ -4,22 +4,33 @@
     <img :src="trip.image_url" alt="" />
     <p>{{ trip.city }}</p>
     <p>{{ trip.state }}</p>
-    <h2>Businesses</h2>
-    <div v-for="business in trip.trip_businesses" v-bind:key="business.id">
-      <!-- <p>{{ business }}</p> -->
-      <h3>Name: {{ business.business.name }}</h3>
-      <img :src="business.business.image_url" alt="" />
-      <p>Open: {{ business.business.open }}</p>
-      <p>Phone: {{ business.business.phone || "No Number Listed" }}</p>
-      <p>Phone: {{ business.business.location[0] + "," + " " + business.business.location[1] }}</p>
-      <p>My Comments: {{ business.comments }}</p>
-    </div>
-
     <router-link tag="button" to="/trips/mytrips">All Trips</router-link>
     <br />
     <router-link tag="button" :to="`/trips/${trip.id}/edit`">Edit Trip</router-link>
     <br />
     <button v-on:click="destroyTrip()">Delete Trip</button>
+    <!-- Displays Businesses within a Trip -->
+    <h2>My Saved Businesses</h2>
+    <div v-for="trip_business in trip.trip_businesses" v-bind:key="trip_business.id">
+      <h3>Name: {{ trip_business.business.name }}</h3>
+      <img :src="trip_business.business.image_url" alt="" />
+      <p>Open: {{ trip_business.business.open }}</p>
+      <p>Phone: {{ trip_business.business.phone || "No Number Listed" }}</p>
+      <p>Phone: {{ trip_business.business.location[0] + "," + " " + trip_business.business.location[1] }}</p>
+      <p>My Comments: {{ trip_business.comments }}</p>
+      <!-- Edit Comments -->
+      <form v-on:submit.prevent="editTripBusinessComments(trip_business)">
+        <div class="form-group">
+          <label>Comments:</label>
+          <input type="text" class="form-control" v-model="trip_business.comments" />
+          |
+          <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
+      </form>
+      <br />
+      <!-- Remove a Business from a Trip -->
+      <button v-on:click="removeTripBusinessFromTrip(trip_business)">Remove Business from Trip</button>
+    </div>
   </div>
 </template>
 
@@ -31,9 +42,7 @@ export default {
       trip: {
         name: "",
       },
-      trip_businesses: {
-        business: {},
-      },
+      trip_businesses: [],
     };
   },
   created: function () {
@@ -48,6 +57,18 @@ export default {
         axios.delete(`/trips/${this.trip.id}`).then((response) => {
           console.log(response.data);
           this.$router.push("/trips/mytrips");
+        });
+      }
+    },
+    editTripBusinessComments: function (trip_business) {
+      axios.patch(`/tripbusiness/${trip_business.id}}`, { comments: trip_business.comments }).then((response) => {
+        console.log(response.data);
+      });
+    },
+    removeTripBusinessFromTrip: function (trip_business) {
+      if (confirm("Are you sure you want to remove this business from the trip?\nClick OK to delete!")) {
+        axios.delete(`/tripbusiness/${trip_business.id}`).then((response) => {
+          console.log(response.data);
         });
       }
     },
