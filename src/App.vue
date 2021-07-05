@@ -1,25 +1,21 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link>
+      <router-link to="/">Home &nbsp;</router-link>
 
       <!-- <router-link to="/about">About</router-link> -->
 
-      <router-link to="/signup" v-if="!isLoggedIn()">Signup</router-link>
+      <router-link to="/signup" v-if="!isLoggedIn()">Signup &nbsp;</router-link>
 
-      <router-link to="/login" v-if="!isLoggedIn()">Login</router-link>
-      |
+      <router-link to="/login" v-if="!isLoggedIn()">Login &nbsp;</router-link>
 
-      <router-link to="/trips/mytrips" v-if="isLoggedIn()">Trips</router-link>
-      |
+      <router-link to="/trips/mytrips" v-if="isLoggedIn()">Trips &nbsp;</router-link>
 
-      <router-link :to="`/users/${getUserID()}`">User</router-link>
-      |
+      <router-link :to="`/users/${getUserID()}`" v-if="isLoggedIn()">User &nbsp;</router-link>
 
-      <router-link to="/logout" v-if="isLoggedIn()">Logout</router-link>
-      |
-      <router-link to="/businesses" v-if="isLoggedIn()">Search</router-link>
-      |
+      <router-link to="/logout" v-if="isLoggedIn()">Logout &nbsp;</router-link>
+
+      <router-link to="/businesses" v-if="isLoggedIn()">Search for a Business</router-link>
     </div>
     <router-view />
   </div>
