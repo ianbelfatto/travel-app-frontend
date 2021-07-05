@@ -19,6 +19,10 @@
         <label>State:</label>
         <input type="text" class="form-control" v-model="newTripParams.state" />
       </div>
+      <div class="form-group">
+        <label>Cover Image:</label>
+        <input type="text" class="form-control" v-model="newTripParams.image_url" />
+      </div>
       <br />
       <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
