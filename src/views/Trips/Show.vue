@@ -22,7 +22,7 @@
       <form v-on:submit.prevent="editTripBusinessComments(trip_business)">
         <div class="form-group">
           <label>Comments:</label>
-          <input type="text" class="form-control" v-model="trip_business.comments" />
+          <input type="text" class="form-control" v-model="trip_business.comments" :placeholder="placeholder" />
           |
           <input type="submit" class="btn btn-primary" value="Submit" />
         </div>
@@ -43,6 +43,7 @@ export default {
         name: "",
       },
       trip_businesses: [],
+      placeholder: "Enter some comments",
     };
   },
   created: function () {
@@ -69,6 +70,7 @@ export default {
       if (confirm("Are you sure you want to remove this business from the trip?\nClick OK to delete!")) {
         axios.delete(`/tripbusiness/${trip_business.id}`).then((response) => {
           console.log(response.data);
+          window.location.reload();
         });
       }
     },
