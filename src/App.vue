@@ -11,7 +11,7 @@
 
       <router-link to="/trips/mytrips" v-if="isLoggedIn()">Trips &nbsp;</router-link>
 
-      <router-link :to="`/users/${getUserID()}`" v-if="isLoggedIn()">User &nbsp;</router-link>
+      <router-link :to="`/users/me`" v-if="isLoggedIn()">User &nbsp;</router-link>
 
       <router-link to="/logout" v-if="isLoggedIn()">Logout &nbsp;</router-link>
 
