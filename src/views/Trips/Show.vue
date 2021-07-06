@@ -1,6 +1,17 @@
 <template>
-  <div class="trips-show">
+  <div class="trips-show" data-role="page">
     <h2>{{ trip.name }}</h2>
+    <button
+      class="button"
+      data-sharer="twitter"
+      :data-title="`Checkout my ${trip.name} trip!`"
+      data-hashtags="trip,travel,itinerary,bars,restaurants,coffee"
+      :data-url="`https://www.localhost:8080/trips/${this.trip.id}`"
+    >
+      Share on Twitter
+    </button>
+    <br />
+    <br />
     <img :src="trip.image_url" alt="" />
     <p>{{ trip.city }}</p>
     <p>{{ trip.state }}</p>
@@ -9,9 +20,14 @@
     <router-link tag="button" :to="`/trips/${trip.id}/edit`">Edit Trip</router-link>
     <br />
     <button v-on:click="destroyTrip()">Delete Trip</button>
+    <br />
+    <br />
+    <div id="map">Map Page Here</div>
+
     <!-- Displays Businesses within a Trip -->
     <h2>My Saved Businesses</h2>
     <div v-for="trip_business in trip.trip_businesses" v-bind:key="trip_business.id">
+      <p>{{ trip_business.business.coordinates }}</p>
       <h3>Name: {{ trip_business.business.name }}</h3>
       <img :src="trip_business.business.image_url" alt="" />
       <p>Open: {{ trip_business.business.open }}</p>
@@ -46,7 +62,15 @@
   </div>
 </template>
 
+<style scoped>
+#map {
+  width: 100%;
+  height: 500px;
+}
+</style>
+
 <script>
+import mapboxgl from "mapbox-gl";
 import axios from "axios";
 export default {
   data: function () {
@@ -57,13 +81,41 @@ export default {
       trip_businesses: [],
       placeholder: "Enter some comments",
       showEditTripBusinessComments: false,
+      // places: [
+      //   {
+      //     lat: this.trip_business.business.coordinates[0],
+      //     lng: this.trip_business.business.coordinates[1],
+      //     description: "A place in Australia",
+      //   },
+      //   { lat: -33.8675, lng: 151.207, description: "The main city!" },
+      //   { lat: 37.4221, lng: -122.078827, description: "Google HQ!" },
+      // ],
     };
   },
   created: function () {
     axios.get(`/trips/${this.$route.params.id}`).then((response) => {
       console.log("Trip object", response.data);
       this.trip = response.data;
+      window.Sharer.init();
     });
+  },
+  mounted: function () {
+    mapboxgl.accessToken =
+      "pk.eyJ1IjoiaWJlbGZhdHRvIiwiYSI6ImNrcTExbnl2MjBhaXYyd2sxMnljeWc5aDgifQ.BAOYySyRiLY8iGwyugHqEw";
+    var map = new mapboxgl.Map({
+      container: "map", // container id
+      style: "mapbox://styles/mapbox/streets-v11", // style URL
+      center: [-73.9973608, 41.9270367], // starting position [lng, lat]
+      zoom: 11, // starting zoom
+    });
+
+    // this.places.forEach((place) => {
+    //   var businessCoords = [place.lng, place.lat];
+    //   new mapboxgl.Marker({ color: "yellow" }).setLngLat(businessCoords).addTo(map);
+    // });
+
+    new mapboxgl.Marker({ color: "green" }).setLngLat([-73.9973608, 41.9270367]).addTo(map);
+    new mapboxgl.Marker({ color: "blue" }).setLngLat([-117, 32.7]).addTo(map);
   },
   methods: {
     destroyTrip: function () {
