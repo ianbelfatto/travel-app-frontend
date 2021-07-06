@@ -18,6 +18,7 @@
       <router-link to="/businesses" v-if="isLoggedIn()">Search for a Business</router-link>
     </div>
     <router-view />
+    <notifications />
   </div>
 </template>
 
@@ -59,5 +60,3 @@ export default {
   },
 };
 </script>
-
-create method to retrieve id from localstorage, call method in nav bar
