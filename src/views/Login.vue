@@ -42,6 +42,7 @@ export default {
           localStorage.setItem("jwt", response.data.jwt);
           localStorage.setItem("id", response.data.user_id);
           this.$router.push("/");
+          this.$notify({ type: "success", text: "You have been logged in." });
         })
         .catch((error) => {
           console.log(error.response);
