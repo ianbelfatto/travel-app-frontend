@@ -98,33 +98,24 @@ export default {
     axios.get(`/trips/${this.$route.params.id}`).then((response) => {
       console.log("Trip object", response.data);
       this.trip = response.data;
-      this.trip.trip_businesses.forEach((trip_business) => {
-        console.log(trip_business.business.coordinates[0]);
-        this.places.push({
-          lat: trip_business.business.coordinates[0],
-          lng: trip_business.business.coordinates[1],
-        });
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiaWJlbGZhdHRvIiwiYSI6ImNrcTExbnl2MjBhaXYyd2sxMnljeWc5aDgifQ.BAOYySyRiLY8iGwyugHqEw";
+      var map = new mapboxgl.Map({
+        container: "map", // container id
+        style: "mapbox://styles/mapbox/streets-v11", // style URL
+        center: [-73.9973608, 41.9270367], // starting position [lng, lat]
+        zoom: 11, // starting zoom
       });
-      console.log(this.places);
+
+      this.trip.trip_businesses.forEach((place) => {
+        console.log(place.business.coordinates);
+        var businessCoords = [place.business.coordinates[1], place.business.coordinates[0]];
+        new mapboxgl.Marker({ color: "yellow" }).setLngLat(businessCoords).addTo(map);
+      });
       window.Sharer.init();
     });
   },
   // Mapbox
-  mounted: function () {
-    mapboxgl.accessToken =
-      "pk.eyJ1IjoiaWJlbGZhdHRvIiwiYSI6ImNrcTExbnl2MjBhaXYyd2sxMnljeWc5aDgifQ.BAOYySyRiLY8iGwyugHqEw";
-    var map = new mapboxgl.Map({
-      container: "map", // container id
-      style: "mapbox://styles/mapbox/streets-v11", // style URL
-      center: [-73.9973608, 41.9270367], // starting position [lng, lat]
-      zoom: 11, // starting zoom
-    });
-
-    this.places.forEach((place) => {
-      var businessCoords = [place.lng, place.lat];
-      new mapboxgl.Marker({ color: "yellow" }).setLngLat([businessCoords]).addTo(map);
-    });
-  },
   methods: {
     destroyTrip: function () {
       if (confirm("Are you sure you want to delete this trip?\nClick OK to delete!")) {
