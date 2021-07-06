@@ -45,10 +45,12 @@ export default {
         .post("/trips", this.newTripParams)
         .then((response) => {
           console.log(response.data);
+          this.$notify({ type: "success", text: "Successfully created a Trip!" });
           this.$router.push("/trips/mytrips");
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
+          this.$notify({ type: "error", text: "Something went wrong...", title: error });
         });
     },
   },
