@@ -1,10 +1,11 @@
 <template>
   <div class="trips-show" data-role="page">
-    <h2>{{ trip.name }}</h2>
+    <h1>{{ trip.name }}</h1>
+    <!-- Twitter Share -->
     <button
       class="button"
       data-sharer="twitter"
-      :data-title="`Checkout my ${trip.name} trip!`"
+      :data-title="`Checkout my trip named: ${trip.name}`"
       data-hashtags="trip,travel,itinerary,bars,restaurants,coffee"
       :data-url="`https://www.localhost:8080/trips/${this.trip.id}`"
     >
@@ -12,18 +13,18 @@
     </button>
     <br />
     <br />
-    <img :src="trip.image_url" alt="" />
-    <p>{{ trip.city }}</p>
-    <p>{{ trip.state }}</p>
-    <router-link tag="button" to="/trips/mytrips">All Trips</router-link>
+    <!-- <img :src="trip.image_url" alt="" /> -->
+    <p>City: {{ trip.city }}</p>
+    <p>State: {{ trip.state }}</p>
+    <router-link tag="button" to="/trips/mytrips">Back to All Trips</router-link>
     <br />
     <router-link tag="button" :to="`/trips/${trip.id}/edit`">Edit Trip</router-link>
     <br />
     <button v-on:click="destroyTrip()">Delete Trip</button>
     <br />
     <br />
+    <!-- Mapbox -->
     <div id="map">Map Page Here</div>
-
     <!-- Displays Businesses within a Trip -->
     <h2>My Saved Businesses</h2>
     <div v-for="trip_business in trip.trip_businesses" v-bind:key="trip_business.id">
@@ -32,7 +33,7 @@
       <img :src="trip_business.business.image_url" alt="" />
       <p>Open: {{ trip_business.business.open }}</p>
       <p>Phone: {{ trip_business.business.phone || "No Number Listed" }}</p>
-      <p>Phone: {{ trip_business.business.location[0] + "," + " " + trip_business.business.location[1] }}</p>
+      <p>Location: {{ trip_business.business.location[0] + "," + " " + trip_business.business.location[1] }}</p>
       <p>My Comments: {{ trip_business.comments }}</p>
       <!-- Edit Comments -->
       <button v-on:click="showEditTripBusinessComments = !showEditTripBusinessComments">Edit Comments</button>
@@ -64,8 +65,9 @@
 
 <style scoped>
 #map {
-  width: 100%;
+  width: 1000px;
   height: 500px;
+  margin: auto;
 }
 </style>
 
@@ -81,24 +83,33 @@ export default {
       trip_businesses: [],
       placeholder: "Enter some comments",
       showEditTripBusinessComments: false,
-      // places: [
-      //   {
-      //     lat: this.trip_business.business.coordinates[0],
-      //     lng: this.trip_business.business.coordinates[1],
-      //     description: "A place in Australia",
-      //   },
-      //   { lat: -33.8675, lng: 151.207, description: "The main city!" },
-      //   { lat: 37.4221, lng: -122.078827, description: "Google HQ!" },
-      // ],
+      places: [
+        // {
+        //   lat: this.trip.trip_businesses[0].business.coordinates[0],
+        //   lng: this.trip.trip_businesses[0].business.coordinates[1],
+        //   description: "Test",
+        // },
+        // { lat: -33.8675, lng: 151.207, description: "The main city!" },
+        // { lat: 37.4221, lng: -122.078827, description: "Google HQ!" },
+      ],
     };
   },
   created: function () {
     axios.get(`/trips/${this.$route.params.id}`).then((response) => {
       console.log("Trip object", response.data);
       this.trip = response.data;
+      this.trip.trip_businesses.forEach((trip_business) => {
+        console.log(trip_business.business.coordinates[0]);
+        this.places.push({
+          lat: trip_business.business.coordinates[0],
+          lng: trip_business.business.coordinates[1],
+        });
+      });
+      console.log(this.places);
       window.Sharer.init();
     });
   },
+  // Mapbox
   mounted: function () {
     mapboxgl.accessToken =
       "pk.eyJ1IjoiaWJlbGZhdHRvIiwiYSI6ImNrcTExbnl2MjBhaXYyd2sxMnljeWc5aDgifQ.BAOYySyRiLY8iGwyugHqEw";
@@ -109,34 +120,40 @@ export default {
       zoom: 11, // starting zoom
     });
 
-    // this.places.forEach((place) => {
-    //   var businessCoords = [place.lng, place.lat];
-    //   new mapboxgl.Marker({ color: "yellow" }).setLngLat(businessCoords).addTo(map);
-    // });
-
-    new mapboxgl.Marker({ color: "green" }).setLngLat([-73.9973608, 41.9270367]).addTo(map);
-    new mapboxgl.Marker({ color: "blue" }).setLngLat([-117, 32.7]).addTo(map);
+    this.places.forEach((place) => {
+      var businessCoords = [place.lng, place.lat];
+      new mapboxgl.Marker({ color: "yellow" }).setLngLat([businessCoords]).addTo(map);
+    });
   },
   methods: {
     destroyTrip: function () {
-      if (confirm("Are you sure?\nClick OK to delete!")) {
+      if (confirm("Are you sure you want to delete this trip?\nClick OK to delete!")) {
         axios.delete(`/trips/${this.trip.id}`).then((response) => {
           console.log(response.data);
-          this.$router.push("/trips/mytrips");
+          this.$notify({ type: "success", text: "Successfully deleted the Trip!" });
+          setTimeout(() => {
+            this.$router.push("/trips/mytrips");
+          }, 1500);
         });
       }
     },
     editTripBusinessComments: function (trip_business) {
       axios.patch(`/tripbusiness/${trip_business.id}}`, { comments: trip_business.comments }).then((response) => {
         console.log(response.data);
-        window.location.reload();
+        this.$notify({ type: "success", text: "Comments have been updated!" });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       });
     },
     removeTripBusinessFromTrip: function (trip_business) {
-      if (confirm("Are you sure you want to remove this business from the trip?\nClick OK to delete!")) {
+      if (confirm("Are you sure you want to remove this business from the trip?\nClick OK to remove!")) {
         axios.delete(`/tripbusiness/${trip_business.id}`).then((response) => {
           console.log(response.data);
-          window.location.reload();
+          this.$notify({ type: "success", text: "Business has been successfully removed from this trip." });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         });
       }
     },
