@@ -103,12 +103,15 @@ export default {
       var map = new mapboxgl.Map({
         container: "map", // container id
         style: "mapbox://styles/mapbox/streets-v11", // style URL
-        center: [-73.9973608, 41.9270367], // starting position [lng, lat]
+        center: [
+          this.trip.trip_businesses[0].business.coordinates[1],
+          this.trip.trip_businesses[0].business.coordinates[0],
+        ], // starting position [lng, lat]
         zoom: 11, // starting zoom
       });
 
       this.trip.trip_businesses.forEach((place) => {
-        console.log(place.business.coordinates);
+        // console.log(place.business.coordinates);
         var businessCoords = [place.business.coordinates[1], place.business.coordinates[0]];
         new mapboxgl.Marker({ color: "yellow" }).setLngLat(businessCoords).addTo(map);
       });
