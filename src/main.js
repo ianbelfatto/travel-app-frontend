@@ -2,6 +2,9 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import axios from "axios";
+import Notifications from "vue-notification";
+
+Vue.use(Notifications);
 
 var jwt = localStorage.getItem("jwt");
 if (jwt) {
