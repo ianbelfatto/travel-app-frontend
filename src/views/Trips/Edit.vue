@@ -54,9 +54,11 @@ export default {
         .patch(`/trips/${this.editTripParams.id}`, this.editTripParams)
         .then((response) => {
           console.log(response.data);
+          this.$notify({ type: "success", text: "Successfully edited the Trip!" });
           this.$router.push(`/trips/${response.data.id}`);
         })
         .catch((error) => {
+          this.$notify({ type: "error", text: "Something went wrong...", title: error });
           this.errors = error.response.data.errors;
         });
     },
