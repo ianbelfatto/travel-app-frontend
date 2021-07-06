@@ -19,15 +19,27 @@
       <p>Phone: {{ trip_business.business.location[0] + "," + " " + trip_business.business.location[1] }}</p>
       <p>My Comments: {{ trip_business.comments }}</p>
       <!-- Edit Comments -->
-      <form v-on:submit.prevent="editTripBusinessComments(trip_business)">
+      <button v-on:click="showEditTripBusinessComments = !showEditTripBusinessComments">Edit Comments</button>
+      <br />
+      <br />
+      <form v-on:submit.prevent="editTripBusinessComments(trip_business)" v-if="showEditTripBusinessComments">
         <div class="form-group">
-          <label>Comments:</label>
-          <input type="text" class="form-control" v-model="trip_business.comments" :placeholder="placeholder" />
-          |
+          <label>Edit Your Comments:</label>
+          <br />
+          <textarea
+            type="text"
+            class="form-control"
+            v-model="trip_business.comments"
+            placeholder="Enter some comments about this business"
+            rows="4"
+            cols="50"
+          />
+          <br />
           <input type="submit" class="btn btn-primary" value="Submit" />
+          <br />
+          <br />
         </div>
       </form>
-      <br />
       <!-- Remove a Business from a Trip -->
       <button v-on:click="removeTripBusinessFromTrip(trip_business)">Remove Business from Trip</button>
     </div>
@@ -44,6 +56,7 @@ export default {
       },
       trip_businesses: [],
       placeholder: "Enter some comments",
+      showEditTripBusinessComments: false,
     };
   },
   created: function () {
@@ -64,6 +77,7 @@ export default {
     editTripBusinessComments: function (trip_business) {
       axios.patch(`/tripbusiness/${trip_business.id}}`, { comments: trip_business.comments }).then((response) => {
         console.log(response.data);
+        window.location.reload();
       });
     },
     removeTripBusinessFromTrip: function (trip_business) {
