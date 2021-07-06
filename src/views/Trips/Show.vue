@@ -83,15 +83,7 @@ export default {
       trip_businesses: [],
       placeholder: "Enter some comments",
       showEditTripBusinessComments: false,
-      places: [
-        // {
-        //   lat: this.trip.trip_businesses[0].business.coordinates[0],
-        //   lng: this.trip.trip_businesses[0].business.coordinates[1],
-        //   description: "Test",
-        // },
-        // { lat: -33.8675, lng: 151.207, description: "The main city!" },
-        // { lat: 37.4221, lng: -122.078827, description: "Google HQ!" },
-      ],
+      places: [],
     };
   },
   created: function () {
