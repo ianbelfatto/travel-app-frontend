@@ -69,7 +69,10 @@ export default {
           localStorage.removeItem("jwt");
           localStorage.removeItem("id");
           console.log(response.data);
-          this.$router.push("/signup");
+          this.$notify({ type: "success", text: "Successfully edited User!" });
+          setTimeout(() => {
+            this.$router.push("/signup");
+          }, 1000);
         });
       }
     },
@@ -77,9 +80,14 @@ export default {
       axios
         .patch(`/users/me`, this.user)
         .then((response) => {
+          this.$notify({ type: "success", text: "Successfully edited User!" });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
           console.log(response.data);
         })
         .catch((error) => {
+          this.$notify({ type: "error", text: "Something went wrong...", title: error });
           this.errors = error.response.data.errors;
         });
     },
