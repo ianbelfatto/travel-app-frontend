@@ -50,9 +50,17 @@ export default {
         .post("/tripbusiness", formData)
         .then((response) => {
           console.log(response.data);
-          this.$router.push("/trips/mytrips");
+          this.$notify({ type: "success", text: "Business has been added to the trip!" });
+          setTimeout(() => {
+            this.$router.push(`/trips/${trip.id}`);
+          }, 2000);
         })
         .catch((error) => {
+          this.$notify({
+            type: "error",
+            text: "Something went wrong...Business already exists in this trip.",
+            title: error,
+          });
           this.errors = error.response.data.errors;
         });
     },
