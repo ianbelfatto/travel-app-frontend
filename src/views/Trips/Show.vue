@@ -53,6 +53,7 @@
           />
           <br />
           <input type="submit" class="btn btn-primary" value="Submit" />
+          <button v-on:click="showEditTripBusinessComments = !showEditTripBusinessComments">Close</button>
           <br />
           <br />
         </div>
@@ -127,9 +128,7 @@ export default {
       axios.patch(`/tripbusiness/${trip_business.id}}`, { comments: trip_business.comments }).then((response) => {
         console.log(response.data);
         this.$notify({ type: "success", text: "Comments have been updated!" });
-        setTimeout(() => {
-          window.location.reload();
-        }, 500);
+        this.$router.push(`/trips/${this.trip.id}`);
       });
     },
     removeTripBusinessFromTrip: function (trip_business) {
