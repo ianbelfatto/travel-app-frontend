@@ -28,7 +28,7 @@
     <!-- Displays Businesses within a Trip -->
     <h2>My Saved Businesses</h2>
     <div v-for="trip_business in trip.trip_businesses" v-bind:key="trip_business.id">
-      <p>{{ trip_business.business.coordinates }}</p>
+      <!-- <p>{{ trip_business.business.coordinates }}</p> -->
       <h3>Name: {{ trip_business.business.name }}</h3>
       <img :src="trip_business.business.image_url" alt="" />
       <p>Open: {{ trip_business.business.open }}</p>
@@ -129,7 +129,7 @@ export default {
         this.$notify({ type: "success", text: "Comments have been updated!" });
         setTimeout(() => {
           window.location.reload();
-        }, 2000);
+        }, 500);
       });
     },
     removeTripBusinessFromTrip: function (trip_business) {
