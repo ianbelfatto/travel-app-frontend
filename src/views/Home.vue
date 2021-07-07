@@ -1,6 +1,13 @@
 <template>
   <div class="home">
     <h1>{{ message }}</h1>
+    <p>
+      Please
+      <b>signup</b>
+      or
+      <b>login</b>
+      to continue
+    </p>
     <p></p>
   </div>
 </template>
@@ -12,7 +19,7 @@
 export default {
   data: function () {
     return {
-      message: "Welcome to the Travel Planner App!",
+      message: "PLNNR",
     };
   },
   created: function () {},
