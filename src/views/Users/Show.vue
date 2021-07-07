@@ -70,9 +70,7 @@ export default {
           localStorage.removeItem("id");
           console.log(response.data);
           this.$notify({ type: "success", text: "Successfully edited User!" });
-          setTimeout(() => {
-            this.$router.push("/signup");
-          }, 1000);
+          this.$router.push("/signup");
         });
       }
     },
@@ -81,9 +79,6 @@ export default {
         .patch(`/users/me`, this.user)
         .then((response) => {
           this.$notify({ type: "success", text: "Successfully edited User!" });
-          setTimeout(() => {
-            window.location.reload();
-          }, 1000);
           console.log(response.data);
         })
         .catch((error) => {
