@@ -24,12 +24,12 @@
         <input type="text" class="form-control" v-model="editTripParams.image_url" />
       </div>
       <br />
-      <router-link :to="`/trips/${editTripParams.id}`" tag="button">Back to Current Trip</router-link>
+      <router-link :to="`/trips/${this.editTripParams.id}`" tag="button">Back to Current Trip</router-link>
       |
       <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
     <br />
-    editTripParams: {{ editTripParams }}
+    <!-- editTripParams: {{ editTripParams }} -->
   </div>
 </template>
 
