@@ -17,8 +17,10 @@
 
       <router-link to="/businesses" v-if="isLoggedIn()">Search for a Business</router-link>
     </div>
-    <router-view />
-    <notifications />
+    <div class="container">
+      <router-view />
+      <notifications />
+    </div>
   </div>
 </template>
 
