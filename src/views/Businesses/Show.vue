@@ -51,9 +51,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.$notify({ type: "success", text: "Business has been added to the trip!" });
-          setTimeout(() => {
-            this.$router.push(`/trips/${trip.id}`);
-          }, 2000);
+          this.$router.push(`/trips/${trip.id}`);
         })
         .catch((error) => {
           this.$notify({
