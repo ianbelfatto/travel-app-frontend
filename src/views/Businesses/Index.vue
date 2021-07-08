@@ -16,8 +16,7 @@
       <i>{{ business.location.display_address[0] + "," + " " + business.location.display_address[1] }}</i>
       <br />
       <br />
-      <router-link tag="button" :to="`/businesses/${business.id}`">More Info</router-link>
-      <button v-on:click="showBusiness(business)" name="modal">Modal</button>
+      <button v-on:click="showBusiness(business)" name="modal">More Info</button>
       <dialog id="business-details">
         <form method="dialog">
           <h1>{{ currentBusiness.name }}</h1>
