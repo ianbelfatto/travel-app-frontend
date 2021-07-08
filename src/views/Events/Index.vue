@@ -13,7 +13,8 @@
       <br />
       <img :src="event.image_url" alt="" />
       <p>{{ event.location.display_address[0] + "," + " " + event.location.display_address[1] }}</p>
-      <p>{{ event.time_start | formatDate }}</p>
+      <p>Starts: {{ event.time_start | formatDate }}</p>
+      <p>Ends: {{ event.time_end | formatDate }}</p>
       <p>$ - {{ event.cost || "Free/No Price Listed" }}</p>
       <p>{{ event.description }}</p>
       <p>
