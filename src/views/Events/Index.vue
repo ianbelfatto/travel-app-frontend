@@ -9,33 +9,24 @@
     <br />
     <br />
     <div v-for="event in events" v-bind:key="event.id">
-      <b>{{ event.name }}</b>
+      <h1>{{ event.name }}</h1>
+      <br />
+      <img :src="event.image_url" alt="" />
       <p>{{ event.location.display_address[0] + "," + " " + event.location.display_address[1] }}</p>
-      <br />
-      <!-- Modal -->
-      <button v-on:click="showEvent(event)" name="modal">More Info</button>
-      <dialog id="event-details">
-        <form method="dialog">
-          <h1>{{ currentEvent.name }}</h1>
-          <img :src="currentEvent.image_url" alt="" />
-          <p>$ - {{ currentEvent.cost || "Free/No Price Listed" }}</p>
-          <p>{{ currentEvent.description }}</p>
-          <p>
-            <a :href="`${currentEvent.event_site_url}`">Event Site</a>
-          </p>
-          <h3>My Trips</h3>
-          <div v-for="trip in trips" v-bind:key="trip.id">
-            <i>{{ trip.name }}</i>
-            <br />
-            <button @click="addEventToTrip(trip)">Add to This Trip</button>
-            <br />
-            <br />
-          </div>
-          <button>Close</button>
-        </form>
-      </dialog>
-      <br />
-      <br />
+      <p>{{ event.time_start | formatDate }}</p>
+      <p>$ - {{ event.cost || "Free/No Price Listed" }}</p>
+      <p>{{ event.description }}</p>
+      <p>
+        <a :href="`${event.event_site_url}`">Event Site</a>
+      </p>
+      <h3>My Trips</h3>
+      <div v-for="trip in trips" v-bind:key="trip.id">
+        <i>{{ trip.name }}</i>
+        <br />
+        <button @click="addEventToTrip(trip, event)">Add to This Trip</button>
+        <br />
+        <br />
+      </div>
     </div>
   </div>
 </template>
@@ -69,15 +60,10 @@ export default {
         this.events = response.data;
       });
     },
-    showEvent: function (event) {
-      console.log("current event", event);
-      this.currentEvent = event;
-      document.querySelector("#event-details").showModal();
-    },
-    addEventToTrip: function (trip) {
+    addEventToTrip: function (trip, event) {
       const formData = new FormData();
       formData.append("trip_id", trip.id);
-      formData.append("yelp_event_id", this.currentEvent.id);
+      formData.append("yelp_event_id", event.id);
       axios
         .post("/tripevent", formData)
         .then((response) => {
