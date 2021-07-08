@@ -31,7 +31,7 @@
       <!-- <p>{{ trip_business.business.coordinates }}</p> -->
       <h3>Name: {{ trip_business.business.name }}</h3>
       <img :src="trip_business.business.image_url" alt="" />
-      <p>Open: {{ trip_business.business.hours }}</p>
+      <p>Open: {{ trip_business.business.open | yesno }}</p>
       <p>Phone: {{ trip_business.business.phone || "No Number Listed" }}</p>
       <p>Location: {{ trip_business.business.location[0] + "," + " " + trip_business.business.location[1] }}</p>
       <p>My Comments: {{ trip_business.comments }}</p>
@@ -65,6 +65,11 @@
     <div v-for="trip_event in trip.trip_events" v-bind:key="trip_event.id">
       <h3>Name: {{ trip_event.event.name }}</h3>
       <img :src="trip_event.event.image_url" alt="" />
+      <br />
+      <a :href="`${trip_event.event.event_link}`">Event Link</a>
+      <p>$ - {{ trip_event.event.cost || "Free/No Price Listed" }}</p>
+      <p>{{ trip_event.event.description }}</p>
+      <p>{{ trip_event.event.location[0] }}</p>
       <p>My Comments: {{ trip_event.comments }}</p>
       <!-- Edit Comments -->
       <button v-on:click="showEditTripEventComments = !showEditTripEventComments">Edit Comments</button>
@@ -116,6 +121,7 @@ export default {
       placeholder: "Enter some comments",
       showEditTripBusinessComments: false,
       showEditTripEventComments: false,
+      currentTripBusiness: {},
       places: [],
     };
   },
@@ -127,13 +133,13 @@ export default {
         "pk.eyJ1IjoiaWJlbGZhdHRvIiwiYSI6ImNrcTExbnl2MjBhaXYyd2sxMnljeWc5aDgifQ.BAOYySyRiLY8iGwyugHqEw";
       var map = new mapboxgl.Map({
         container: "map", // container id
-        style: "mapbox://styles/mapbox/streets-v11", // style URL
+        style: "mapbox://styles/ibelfatto/ckqv41u360am217nyjrxl4gjl", // style URL
         center: [
           this.trip.trip_businesses[0].business.coordinates[1],
           this.trip.trip_businesses[0].business.coordinates[0],
         ], // starting position [lng, lat]
         zoom: 11, // starting zoom
-        interactive: false,
+        interactive: true,
       });
 
       this.trip.trip_businesses.forEach((place) => {
@@ -142,6 +148,15 @@ export default {
         var businessDetails = ["Name: " + place.business.name + " " + "Location: " + place.business.location];
         var businessDetailsPopup = new mapboxgl.Popup({ offset: 25 }).setText(businessDetails).addTo(map);
         new mapboxgl.Marker({ color: "yellow" }).setLngLat(businessCoords).setPopup(businessDetailsPopup).addTo(map);
+        // console.log("place", place.business.name);
+      });
+
+      this.trip.trip_events.forEach((place) => {
+        // console.log(place.business.coordinates);
+        var eventCoords = [place.event.coordinates[1], place.event.coordinates[0]];
+        var eventDetails = ["Name: " + place.event.name + " " + "Location: " + place.event.location];
+        var eventDetailsPopup = new mapboxgl.Popup({ offset: 25 }).setText(eventDetails).addTo(map);
+        new mapboxgl.Marker({ color: "blue" }).setLngLat(eventCoords).setPopup(eventDetailsPopup).addTo(map);
         // console.log("place", place.business.name);
       });
       window.Sharer.init();
@@ -175,6 +190,8 @@ export default {
       if (confirm("Are you sure you want to remove this business from the trip?\nClick OK to remove!")) {
         axios.delete(`/tripbusiness/${trip_business.id}`).then((response) => {
           console.log(response.data);
+          var index = this.trip.trip_businesses.indexOf(trip_business);
+          this.trip.trip_businesses.splice(index, 1);
           this.$notify({ type: "success", text: "Business has been successfully removed from this trip." });
         });
       }
@@ -183,6 +200,8 @@ export default {
       if (confirm("Are you sure you want to remove this event from the trip?\nClick OK to remove!")) {
         axios.delete(`/tripevent/${trip_event.id}`).then((response) => {
           console.log(response.data);
+          var index = this.trip.trip_events.indexOf(trip_event);
+          this.trip.trip_events.splice(index, 1);
           this.$notify({ type: "success", text: "Event has been successfully removed from this trip." });
         });
       }
