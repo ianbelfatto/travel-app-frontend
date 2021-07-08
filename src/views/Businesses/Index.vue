@@ -13,37 +13,22 @@
     <div v-for="business in businesses" v-bind:key="business.id">
       <b>{{ business.name }}</b>
       <br />
+      <img :src="business.image_url" alt="" />
+      <p>Open: {{ business.is_closed }}</p>
+      <p>Rating: {{ business.rating }} / 5</p>
+      <p>Review Count: {{ business.review_count }}</p>
+      <p>Cost: {{ business.price }}</p>
+      <p>Phone Number: {{ business.display_phone || "None Listed" }}</p>
       <i>{{ business.location.display_address[0] + "," + " " + business.location.display_address[1] }}</i>
       <br />
-      <br />
-      <button v-on:click="showBusiness(business)" name="modal">More Info</button>
-      <dialog id="business-details">
-        <form method="dialog">
-          <h1>{{ currentBusiness.name }}</h1>
-          <img :src="currentBusiness.image_url" alt="" />
-          <p>Open: {{ currentBusiness.is_closed }}</p>
-          <p>Rating: {{ currentBusiness.rating }} / 5</p>
-          <p>Review Count: {{ currentBusiness.review_count }}</p>
-          <p>Cost: {{ currentBusiness.price }}</p>
-          <p>Phone Number: {{ currentBusiness.display_phone || "None Listed" }}</p>
-          <!-- <p>
-            {{ currentBusiness.location.display_address[0] + "," + " " + currentBusiness.location.display_address[1] }}
-          </p> -->
-          <br />
-          <br />
-          <h3>My Trips</h3>
-          <div v-for="trip in trips" v-bind:key="trip.id">
-            <i>{{ trip.name }}</i>
-            <br />
-            <button @click="addBusinessToTrip(trip)">Add to This Trip</button>
-            <br />
-            <br />
-          </div>
-          <button>Close</button>
-        </form>
-      </dialog>
-      <br />
-      <br />
+      <h3>My Trips</h3>
+      <div v-for="trip in trips" v-bind:key="trip.id">
+        <i>{{ trip.name }}</i>
+        <br />
+        <button @click="addBusinessToTrip(trip, business)">Add to This Trip</button>
+        <br />
+        <br />
+      </div>
     </div>
   </div>
 </template>
@@ -78,15 +63,10 @@ export default {
         this.businesses = response.data;
       });
     },
-    showBusiness: function (business) {
-      console.log("current business", business);
-      this.currentBusiness = business;
-      document.querySelector("#business-details").showModal();
-    },
-    addBusinessToTrip: function (trip) {
+    addBusinessToTrip: function (trip, business) {
       const formData = new FormData();
       formData.append("trip_id", trip.id);
-      formData.append("yelp_business_id", this.currentBusiness.id);
+      formData.append("yelp_business_id", business.id);
       axios
         .post("/tripbusiness", formData)
         .then((response) => {
