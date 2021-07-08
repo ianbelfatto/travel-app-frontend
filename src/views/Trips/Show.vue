@@ -60,6 +60,37 @@
       <!-- Remove a Business from a Trip -->
       <button v-on:click="removeTripBusinessFromTrip(trip_business)">Remove Business from Trip</button>
     </div>
+    <!-- Displays Events within a Trip -->
+    <h2>My Saved Events</h2>
+    <div v-for="trip_event in trip.trip_events" v-bind:key="trip_event.id">
+      <h3>Name: {{ trip_event.event.name }}</h3>
+      <img :src="trip_event.event.image_url" alt="" />
+      <p>My Comments: {{ trip_event.comments }}</p>
+      <!-- Edit Comments -->
+      <button v-on:click="showEditTripEventComments = !showEditTripEventComments">Edit Comments</button>
+      <br />
+      <br />
+      <form v-on:submit.prevent="editTripEventComments(trip_event)" v-if="showEditTripEventComments">
+        <div class="form-group">
+          <label>Edit Your Comments:</label>
+          <br />
+          <textarea
+            type="text"
+            class="form-control"
+            v-model="trip_event.comments"
+            placeholder="Enter some comments about this event"
+            rows="4"
+            cols="50"
+          />
+          <br />
+          <input type="submit" class="btn btn-primary" value="Submit" />
+          <br />
+          <br />
+        </div>
+      </form>
+      <!-- Remove an Event from a Trip -->
+      <button v-on:click="removeTripEventFromTrip(trip_event)">Remove Event from Trip</button>
+    </div>
   </div>
 </template>
 
@@ -81,8 +112,10 @@ export default {
         name: "",
       },
       trip_businesses: [],
+      trip_events: [],
       placeholder: "Enter some comments",
       showEditTripBusinessComments: false,
+      showEditTripEventComments: false,
       places: [],
     };
   },
@@ -131,11 +164,26 @@ export default {
         this.$notify({ type: "success", text: "Comments have been updated!" });
       });
     },
+    editTripEventComments: function (trip_event) {
+      axios.patch(`/tripevent/${trip_event.id}}`, { comments: trip_event.comments }).then((response) => {
+        console.log(response.data);
+        this.showEditTripEventComments = false;
+        this.$notify({ type: "success", text: "Comments have been updated!" });
+      });
+    },
     removeTripBusinessFromTrip: function (trip_business) {
       if (confirm("Are you sure you want to remove this business from the trip?\nClick OK to remove!")) {
         axios.delete(`/tripbusiness/${trip_business.id}`).then((response) => {
           console.log(response.data);
           this.$notify({ type: "success", text: "Business has been successfully removed from this trip." });
+        });
+      }
+    },
+    removeTripEventFromTrip: function (trip_event) {
+      if (confirm("Are you sure you want to remove this event from the trip?\nClick OK to remove!")) {
+        axios.delete(`/tripevent/${trip_event.id}`).then((response) => {
+          console.log(response.data);
+          this.$notify({ type: "success", text: "Event has been successfully removed from this trip." });
         });
       }
     },
