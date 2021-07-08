@@ -11,6 +11,7 @@ import TripsNew from "../views/Trips/New.vue";
 import TripsEdit from "../views/Trips/Edit.vue";
 import BusinessesIndex from "../views/Businesses/Index.vue";
 import BusinessesShow from "../views/Businesses/Show.vue";
+import EventsIndex from "../views/Events/Index.vue";
 
 Vue.use(VueRouter);
 
@@ -35,6 +36,8 @@ const routes = [
 
   { path: "/businesses", name: "businesses-index", component: BusinessesIndex },
   { path: "/businesses/:yelp_business_id", name: "businesses-show", component: BusinessesShow },
+
+  { path: "/events", name: "events-index", component: EventsIndex },
 ];
 
 const router = new VueRouter({
