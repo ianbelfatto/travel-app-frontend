@@ -1,6 +1,6 @@
 <template>
   <div class="businesses-index">
-    <h1>Search a Destination:</h1>
+    <h1>Search for Businesses:</h1>
     Term:
     <input type="text" v-model="term" />
     <br />
@@ -10,6 +10,7 @@
     <button v-on:click="runSearch()">Search</button>
     <br />
     <br />
+    <h1>Results:</h1>
     <div v-for="business in businesses" v-bind:key="business.id">
       <b>{{ business.name }}</b>
       <br />
