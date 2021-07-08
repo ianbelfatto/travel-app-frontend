@@ -15,7 +15,9 @@
 
       <router-link to="/logout" v-if="isLoggedIn()">Logout &nbsp;</router-link>
 
-      <router-link to="/businesses" v-if="isLoggedIn()">Search for a Business</router-link>
+      <router-link to="/businesses" v-if="isLoggedIn()">Search for a Business &nbsp;</router-link>
+
+      <router-link to="/events" v-if="isLoggedIn()">Search for an Event</router-link>
     </div>
     <div class="container">
       <router-view />
