@@ -3,6 +3,17 @@ import App from "./App.vue";
 import router from "./router";
 import axios from "axios";
 import Notifications from "vue-notification";
+import moment from "moment";
+
+Vue.filter("formatDate", function (value) {
+  if (value) {
+    return moment(String(value)).format("MM/DD/YYYY hh:mm a");
+  }
+});
+
+Vue.filter("yesno", function (value) {
+  return value ? "Yes" : "No";
+});
 
 Vue.use(Notifications);
 
