@@ -1,107 +1,273 @@
 <template>
   <div class="trips-show" data-role="page">
-    <h1>{{ trip.name }}</h1>
-    <p>{{ trip.city }}, {{ trip.state }}</p>
-    <!-- Twitter Share -->
-    <button
-      class="button"
-      data-sharer="twitter"
-      :data-title="`Checkout my trip named: ${trip.name}`"
-      data-hashtags="trip,travel,itinerary,bars,restaurants,coffee"
-      :data-url="`https://www.localhost:8080/trips/${this.trip.id}`"
-    >
-      Share on Twitter
-    </button>
-    <br />
-    <br />
-    <!-- <img :src="trip.image_url" alt="" /> -->
+    <section class="pt-md-10 sec-pb-70 pb-6 bg-light">
+      <div class="section-title pt-md-8">
+        <h2>{{ trip.name }}</h2>
+        <p>{{ trip.city }} {{ trip.state }}</p>
+        <span>
+          <router-link to="/trips/mytrips" class="btn btn-primary">Back to My Trips</router-link>
+          &nbsp;
+          <router-link :to="`/trips/${trip.id}/edit`" class="btn btn-primary">Edit This Trip</router-link>
+          &nbsp;
+          <button class="btn btn-primary" v-on:click="destroyTrip()">Delete This Trip</button>
+          <br />
+          <br />
+          <!-- Twitter Share -->
+          <button
+            class="btn btn-outline-primary text-uppercase"
+            data-sharer="twitter"
+            :data-title="`Checkout my trip named: ${trip.name}`"
+            data-hashtags="trip,travel,itinerary,bars,restaurants,coffee"
+            :data-url="`https://www.localhost:8080/trips/${this.trip.id}`"
+          >
+            Share on Twitter
+          </button>
+        </span>
+      </div>
+    </section>
+    <!-- MAP LISTING -->
+    <div class="map-container">
+      <div id="listing-main-map" class="map-half map-listing-full">
+        <!-- Mapbox -->
+        <div id="map">Map Page Here</div>
+      </div>
+    </div>
+    <!-- ====================================
+———	CATEGORY LIST FULLWIDTH
+===================================== -->
+    <section class="bg-light py-5">
+      <div class="container">
+        <div class="search-result-bar mb-0">
+          <div class="ml-md-auto d-flex align-items-center justify-content-between">
+            <!-- <div class="select-bg-transparent select-border">
+              <select class="select-location">
+                <option>Popular</option>
+                <option>Nearest</option>
+                <option>Recent</option>
+              </select>
+            </div> -->
+            <!-- <div class="icons">
+              <a class="mr-2" href="listing-grid-fullwidth.html">
+                <i class="fa fa-th" aria-hidden="true"></i>
+              </a>
+              <a class="active" href="listing-list-fullwidth.html">
+                <i class="fa fa-th-list" aria-hidden="true"></i>
+              </a>
+            </div> -->
+          </div>
+        </div>
+        <h3>My Saved Businesses</h3>
+        <div v-for="trip_business in trip.trip_businesses" v-bind:key="trip_business.id">
+          <div class="card card-list card-listing" data-lat="-33.922125" data-lag="151.159277" data-id="1">
+            <div class="row">
+              <div class="col-md-4 col-xl-3">
+                <div class="card-list-img">
+                  <img class="listing-img" :src="trip_business.business.image_url" alt="" />
+                </div>
+              </div>
 
-    <router-link tag="button" to="/trips/mytrips">Back to All Trips</router-link>
-    <br />
-    <router-link tag="button" :to="`/trips/${trip.id}/edit`">Edit Trip</router-link>
-    <br />
-    <button v-on:click="destroyTrip()">Delete Trip</button>
-    <br />
-    <br />
-    <!-- Mapbox -->
-    <div id="map">Map Page Here</div>
-    <!-- Displays Businesses within a Trip -->
-    <h2>My Saved Businesses</h2>
-    <div v-for="trip_business in trip.trip_businesses" v-bind:key="trip_business.id">
-      <!-- <p>{{ trip_business.business.coordinates }}</p> -->
-      <h3>Name: {{ trip_business.business.name }}</h3>
-      <img :src="trip_business.business.image_url" alt="" />
-      <p>Open: {{ trip_business.business.open | yesno }}</p>
-      <p>Phone: {{ trip_business.business.phone || "No Number Listed" }}</p>
-      <p>Location: {{ trip_business.business.location[0] + "," + " " + trip_business.business.location[1] }}</p>
-      <p>My Comments: {{ trip_business.comments }}</p>
-      <!-- Edit Comments -->
-      <button v-on:click="showEditTripBusinessComments = !showEditTripBusinessComments">Edit Comments</button>
-      <br />
-      <br />
-      <form v-on:submit.prevent="editTripBusinessComments(trip_business)" v-if="showEditTripBusinessComments">
-        <div class="form-group">
-          <label>Edit Your Comments:</label>
-          <br />
-          <textarea
-            type="text"
-            class="form-control"
-            v-model="trip_business.comments"
-            placeholder="Enter some comments about this business"
-            rows="4"
-            cols="50"
-          />
-          <br />
-          <input type="submit" class="btn btn-primary" value="Submit" />
-          <br />
-          <br />
+              <div class="col-md-8 col-xl-9">
+                <div class="card-body p-0">
+                  <ul class="list-inline list-inline-rating">
+                    <li class="list-inline-item">
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="far fa-star" aria-hidden="true"></i>
+                    </li>
+                  </ul>
+
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <h3 class="card-title listing-title mb-0">
+                      <p>{{ trip_business.business.name }}</p>
+                    </h3>
+                    <button
+                      class="btn-like px-2"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Favourite this listing"
+                    >
+                      <i class="far fa-heart text-primary" aria-hidden="true"></i>
+                      <span>8 k</span>
+                    </button>
+                  </div>
+                </div>
+                <span class="d-block mb-4 listing-address">
+                  {{ trip_business.business.location[0] + "," + " " + trip_business.business.location[1] }}
+                </span>
+                <span class="d-block mb-4 listing-address">
+                  <p>Open: {{ trip_business.business.open | yesno }}</p>
+                </span>
+                <span class="d-block mb-4 listing-address">
+                  <p>Phone: {{ trip_business.business.phone || "No Number Listed" }}</p>
+                </span>
+                <p class="mb-4">My Comments: {{ trip_business.comments }}</p>
+                <div>
+                  <button
+                    v-on:click="showEditTripBusinessComments = !showEditTripBusinessComments"
+                    class="btn btn-primary"
+                  >
+                    Edit Comments
+                  </button>
+                  &nbsp;
+                  <button v-on:click="removeTripBusinessFromTrip(trip_business)" class="btn btn-primary">
+                    Remove Business from Trip
+                  </button>
+                  <form
+                    v-on:submit.prevent="editTripBusinessComments(trip_business)"
+                    v-if="showEditTripBusinessComments"
+                  >
+                    <div class="form-group">
+                      <br />
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        v-model="trip_business.comments"
+                        placeholder="Enter some comments about this business"
+                        rows="4"
+                        cols="50"
+                      />
+                      <br />
+                      <input type="submit" class="btn btn-primary" value="Submit" />
+                      <br />
+                      <br />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
-      <!-- Remove a Business from a Trip -->
-      <button v-on:click="removeTripBusinessFromTrip(trip_business)">Remove Business from Trip</button>
-    </div>
-    <!-- Displays Events within a Trip -->
-    <h2>My Saved Events</h2>
-    <div v-for="trip_event in trip.trip_events" v-bind:key="trip_event.id">
-      <h3>Name: {{ trip_event.event.name }}</h3>
-      <img :src="trip_event.event.image_url" alt="" />
-      <br />
-      <a :href="`${trip_event.event.event_link}`">Event Link</a>
-      <p>$ - {{ trip_event.event.cost || "Free/No Price Listed" }}</p>
-      <p>{{ trip_event.event.description }}</p>
-      <p>{{ trip_event.event.location[0] }}</p>
-      <p>My Comments: {{ trip_event.comments }}</p>
-      <!-- Edit Comments -->
-      <button v-on:click="showEditTripEventComments = !showEditTripEventComments">Edit Comments</button>
-      <br />
-      <br />
-      <form v-on:submit.prevent="editTripEventComments(trip_event)" v-if="showEditTripEventComments">
-        <div class="form-group">
-          <label>Edit Your Comments:</label>
-          <br />
-          <textarea
-            type="text"
-            class="form-control"
-            v-model="trip_event.comments"
-            placeholder="Enter some comments about this event"
-            rows="4"
-            cols="50"
-          />
-          <br />
-          <input type="submit" class="btn btn-primary" value="Submit" />
-          <br />
-          <br />
+        <h3>My Saved Events</h3>
+        <div v-for="trip_event in trip.trip_events" v-bind:key="trip_event.id">
+          <div class="card card-list card-listing" data-lat="-33.922125" data-lag="151.159277" data-id="1">
+            <div class="row">
+              <div class="col-md-4 col-xl-3">
+                <div class="card-list-img">
+                  <img class="listing-img" :src="trip_event.event.image_url" alt="" />
+                </div>
+              </div>
+
+              <div class="col-md-8 col-xl-9">
+                <div class="card-body p-0">
+                  <ul class="list-inline list-inline-rating">
+                    <li class="list-inline-item">
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="fa fa-star" aria-hidden="true"></i>
+                    </li>
+                    <li class="list-inline-item">
+                      <i class="far fa-star" aria-hidden="true"></i>
+                    </li>
+                  </ul>
+
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <h3 class="card-title listing-title mb-0">
+                      <p>{{ trip_event.event.name }}</p>
+                    </h3>
+                    <button
+                      class="btn-like px-2"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Favourite this listing"
+                    >
+                      <i class="far fa-heart text-primary" aria-hidden="true"></i>
+                      <span>8 k</span>
+                    </button>
+                  </div>
+                </div>
+                <span class="d-block mb-4 listing-address">
+                  {{ trip_event.event.location[0] + "," + " " + trip_event.event.location[1] }}
+                </span>
+                <span class="d-block mb-4 listing-address">
+                  <a :href="`${trip_event.event.event_link}`">Event Link</a>
+                </span>
+                <span class="d-block mb-4 listing-address">
+                  <p>$ - {{ trip_event.event.cost || "Free/No Price Listed" }}</p>
+                </span>
+                <span class="d-block mb-4 listing-address">
+                  <p class="mb-4">{{ trip_event.event.description }}</p>
+                </span>
+                <p class="mb-4">My Comments: {{ trip_event.comments }}</p>
+                <div>
+                  <button v-on:click="showEditTripEventComments = !showEditTripEventComments" class="btn btn-primary">
+                    Edit Comments
+                  </button>
+                  &nbsp;
+                  <button v-on:click="removeTripEventFromTrip(trip_event)" class="btn btn-primary">
+                    Remove Event from Trip
+                  </button>
+                  <form v-on:submit.prevent="editTripEventComments(trip_event)" v-if="showEditTripEventComments">
+                    <div class="form-group">
+                      <br />
+                      <textarea
+                        type="text"
+                        class="form-control"
+                        v-model="trip_event.comments"
+                        placeholder="Enter some comments about this event"
+                        rows="4"
+                        cols="50"
+                      />
+                      <br />
+                      <input type="submit" class="btn btn-primary" value="Submit" />
+                      <br />
+                      <br />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
-      <!-- Remove an Event from a Trip -->
-      <button v-on:click="removeTripEventFromTrip(trip_event)">Remove Event from Trip</button>
-    </div>
+      </div>
+
+      <!-- ====================================
+———	pagination
+===================================== -->
+      <!-- <section class="my-5">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item mr-2">
+                <a class="page-link" href="javascript:void(0)">
+                  <i class="fa fa-angle-left" aria-hidden="true"></i>
+                </a>
+              </li>
+              <li class="page-item active mr-2"><a class="page-link" href="javascript:void(0)">1</a></li>
+              <li class="page-item mr-2"><a class="page-link" href="javascript:void(0)">2</a></li>
+              <li class="page-item mr-2"><a class="page-link" href="javascript:void(0)">3</a></li>
+              <li class="page-item mr-2"><a class="page-link" href="javascript:void(0)">4</a></li>
+              <li class="page-item mr-2"><a class="page-link" href="javascript:void(0)">5</a></li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0)">
+                  <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </section> -->
+    </section>
   </div>
 </template>
 
 <style scoped>
 #map {
-  width: 1000px;
+  width: auto;
   height: 500px;
   margin: auto;
 }

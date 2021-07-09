@@ -1,35 +1,59 @@
 <template>
   <div class="trips-edit">
-    <form v-on:submit.prevent="editTrip()">
-      <h1>Edit Trip</h1>
-      <ul>
-        <li class="text-danger" v-for="error in errors" v-bind:key="error">
-          {{ error }}
-        </li>
-      </ul>
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" v-model="editTripParams.name" />
+    <!-- EDIT TRIP   -->
+    <section class="py-7 py-md-10 bg-light">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-lg-5">
+            <div class="card">
+              <div class="bg-primary text-center py-4">
+                <h2 class="text-white mb-0 h4">Edit Trip</h2>
+              </div>
+              <div class="card-body px-7 pt-7 pb-0">
+                <form v-on:submit.prevent="editTrip()">
+                  <ul>
+                    <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+                  </ul>
+                  <div class="form-group mb-7">
+                    <label for="exampleInputText">Name*</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      aria-describedby="emailHelp"
+                      required
+                      v-model="editTripParams.name"
+                    />
+                    <em>Enter a new name for this trip.</em>
+                  </div>
+                  <div class="form-group mb-7">
+                    <label for="exampleInputPassword1">City*</label>
+                    <input type="text" class="form-control" v-model="editTripParams.city" />
+                    <em>Enter a new city for this trip.</em>
+                  </div>
+                  <div class="form-group mb-7">
+                    <label for="exampleInputPassword1">State*</label>
+                    <input type="text" class="form-control" v-model="editTripParams.state" />
+                    <em>Enter a new state for this trip.</em>
+                  </div>
+                  <div class="form-group mb-7">
+                    <label for="exampleInputPassword1">Cover Image*</label>
+                    <input type="text" class="form-control" v-model="editTripParams.image_url" />
+                    <em>Enter a new Cover Image URL for this trip.</em>
+                  </div>
+                  <div class="form-group d-flex justify-content-between align-items-center mb-7">
+                    <router-link :to="`/trips/${this.editTripParams.id}`" class="btn btn-secondary">
+                      Back to Current Trip
+                    </router-link>
+                    &nbsp;
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>City:</label>
-        <input type="text" class="form-control" v-model="editTripParams.city" />
-      </div>
-      <div class="form-group">
-        <label>State:</label>
-        <input type="text" class="form-control" v-model="editTripParams.state" />
-      </div>
-      <div class="form-group">
-        <label>Cover Image:</label>
-        <input type="text" class="form-control" v-model="editTripParams.image_url" />
-      </div>
-      <br />
-      <router-link :to="`/trips/${this.editTripParams.id}`" tag="button">Back to Current Trip</router-link>
-      |
-      <input type="submit" class="btn btn-primary" value="Submit" />
-    </form>
-    <br />
-    <!-- editTripParams: {{ editTripParams }} -->
+    </section>
   </div>
 </template>
 
