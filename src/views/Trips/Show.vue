@@ -196,7 +196,7 @@
                   {{ trip_event.event.location[0] + "," + " " + trip_event.event.location[1] }}
                 </span>
                 <span class="d-block mb-4 listing-address">
-                  <a :href="`${trip_event.event.event_link}`">Event Link</a>
+                  <a :href="`${trip_event.event.event_link}`" target="_blank">Event Link</a>
                 </span>
                 <span class="d-block mb-4 listing-address">
                   <p>$ - {{ trip_event.event.cost || "Free/No Price Listed" }}</p>
