@@ -1,6 +1,6 @@
 <template>
   <div class="trips-index">
-    <section class="pt-md-10 sec-pb-70 pb-6 bg-light">
+    <section class="pt-md-10 sec-pb-70 pb-6 bg-white">
       <div class="section-title pt-md-8">
         <h1>Create a New Trip</h1>
         <router-link to="/trips" class="btn btn-primary">Create</router-link>
