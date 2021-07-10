@@ -2,9 +2,13 @@
   <div class="trips-show" data-role="page">
     <section class="pt-md-10 sec-pb-70 pb-6 bg-light">
       <div class="section-title pt-md-8">
+        <!-- {{ isLoading }} -->
+        <!-- <div class="spinner-grow text-primary" style="width: 5rem; height: 5rem" role="status" v-if="isLoading">
+          <span class="sr-only">Loading...</span>
+        </div> -->
         <h2>{{ trip.name }}</h2>
         <p>{{ trip.city }} {{ trip.state }}</p>
-        <span>
+        <span v-if="!isLoading">
           <router-link to="/trips/mytrips" class="btn btn-primary">Back to My Trips</router-link>
           &nbsp;
           <router-link :to="`/trips/${trip.id}/edit`" class="btn btn-primary">Edit This Trip</router-link>
@@ -26,17 +30,24 @@
       </div>
     </section>
     <!-- MAP LISTING -->
-    <div class="map-container">
+    <div class="map-container bg-light">
       <div id="listing-main-map" class="map-half map-listing-full">
         <!-- Mapbox -->
-        <div id="map">Map Page Here</div>
+
+        <div id="map">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-grow text-primary" style="width: 5rem; height: 5rem" role="status" v-if="isLoading">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- ====================================
 ———	CATEGORY LIST FULLWIDTH
 ===================================== -->
     <section class="bg-light py-5">
-      <div class="container">
+      <div class="container" v-if="!isLoading">
         <div class="search-result-bar mb-0">
           <div class="ml-md-auto d-flex align-items-center justify-content-between">
             <!-- <div class="select-bg-transparent select-border">
@@ -147,6 +158,7 @@
             </div>
           </div>
         </div>
+        <br />
         <h3>My Saved Events</h3>
         <div v-for="trip_event in trip.trip_events" v-bind:key="trip_event.id">
           <div class="card card-list card-listing" data-lat="-33.922125" data-lag="151.159277" data-id="1">
@@ -268,7 +280,7 @@
 <style scoped>
 #map {
   width: auto;
-  height: 500px;
+  height: 540px;
   margin: auto;
 }
 </style>
@@ -289,6 +301,7 @@ export default {
       showEditTripEventComments: false,
       currentTripBusiness: {},
       places: [],
+      isLoading: true,
     };
   },
   created: function () {
@@ -299,7 +312,7 @@ export default {
         "pk.eyJ1IjoiaWJlbGZhdHRvIiwiYSI6ImNrcTExbnl2MjBhaXYyd2sxMnljeWc5aDgifQ.BAOYySyRiLY8iGwyugHqEw";
       var map = new mapboxgl.Map({
         container: "map", // container id
-        style: "mapbox://styles/ibelfatto/ckqv41u360am217nyjrxl4gjl", // style URL
+        style: "mapbox://styles/ibelfatto/ckqy2hj0d0rzh17thlbapfkh9", // style URL
         center: [
           this.trip.trip_businesses[0].business.coordinates[1],
           this.trip.trip_businesses[0].business.coordinates[0],
@@ -325,6 +338,9 @@ export default {
         new mapboxgl.Marker({ color: "blue" }).setLngLat(eventCoords).setPopup(eventDetailsPopup).addTo(map);
         // console.log("place", place.business.name);
       });
+
+      this.isLoading = false;
+
       window.Sharer.init();
     });
   },
