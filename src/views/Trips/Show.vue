@@ -79,24 +79,6 @@
 
               <div class="col-md-8 col-xl-9">
                 <div class="card-body p-0">
-                  <ul class="list-inline list-inline-rating">
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="far fa-star" aria-hidden="true"></i>
-                    </li>
-                  </ul>
-
                   <div class="d-flex justify-content-between align-items-center mb-1">
                     <h3 class="card-title listing-title mb-0">
                       <p>{{ trip_business.business.name }}</p>
@@ -106,18 +88,18 @@
                       data-toggle="tooltip"
                       data-placement="top"
                       title="Favourite this listing"
-                    >
-                      <i class="far fa-heart text-primary" aria-hidden="true"></i>
-                      <span>8 k</span>
-                    </button>
+                    ></button>
                   </div>
                 </div>
                 <span class="d-block mb-4 listing-address">
                   {{ trip_business.business.location[0] + "," + " " + trip_business.business.location[1] }}
                 </span>
                 <span class="d-block mb-4 listing-address">
-                  <p>Open: {{ trip_business.business.open | yesno }}</p>
+                  <a :href="`${trip_business.business.url}`" target="_blank">Business Link</a>
                 </span>
+                <!-- <span class="d-block mb-4 listing-address">
+                  <p>Open Now: {{ trip_business.business.open | yesno }}</p>
+                </span> -->
                 <span class="d-block mb-4 listing-address">
                   <p>Phone: {{ trip_business.business.phone || "No Number Listed" }}</p>
                 </span>
@@ -171,24 +153,6 @@
 
               <div class="col-md-8 col-xl-9">
                 <div class="card-body p-0">
-                  <ul class="list-inline list-inline-rating">
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="far fa-star" aria-hidden="true"></i>
-                    </li>
-                  </ul>
-
                   <div class="d-flex justify-content-between align-items-center mb-1">
                     <h3 class="card-title listing-title mb-0">
                       <p>{{ trip_event.event.name }}</p>
@@ -198,15 +162,15 @@
                       data-toggle="tooltip"
                       data-placement="top"
                       title="Favourite this listing"
-                    >
-                      <i class="far fa-heart text-primary" aria-hidden="true"></i>
-                      <span>8 k</span>
-                    </button>
+                    ></button>
                   </div>
                 </div>
                 <span class="d-block mb-4 listing-address">
-                  {{ trip_event.event.location[0] + "," + " " + trip_event.event.location[1] }}
+                  {{ trip_event.event.location[0] }}
                 </span>
+                <!-- <span class="d-block mb-4 listing-address">
+                  {{ trip_event.event.time_start | formatDate }}
+                </span> -->
                 <span class="d-block mb-4 listing-address">
                   <a :href="`${trip_event.event.event_link}`" target="_blank">Event Link</a>
                 </span>
@@ -317,7 +281,7 @@ export default {
           this.trip.trip_businesses[0].business.coordinates[1],
           this.trip.trip_businesses[0].business.coordinates[0],
         ], // starting position [lng, lat]
-        zoom: 11, // starting zoom
+        zoom: 10, // starting zoom
         interactive: true,
       });
 
