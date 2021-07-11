@@ -1,14 +1,11 @@
 <template>
   <div class="home">
-    <h1>{{ message }}</h1>
-    <p>
-      Please
-      <b>signup</b>
-      or
-      <b>login</b>
-      to continue
-    </p>
-    <p></p>
+    <section class="pt-md-10 sec-pb-70 pb-6 bg-white">
+      <div class="section-title pt-md-8">
+        <h4>Welcome</h4>
+        <p>Please signup or login to continue</p>
+      </div>
+    </section>
   </div>
 </template>
 
