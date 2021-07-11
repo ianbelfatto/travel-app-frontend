@@ -7,10 +7,8 @@
             <div class="bg-white p-5 rounded border">
               <h2 class="font-weight-normal mb-4">Account Registration</h2>
               <p>
-                Please fill out the fields below to create your account. We will send your account information to the
-                email address you enter. Your email address and information will NOT be sold or shared with any 3rd
-                party. If you already have an account, please,
-                <a href="login.html">click here</a>
+                Please fill out the fields below to create your account. If you already have an account, please,
+                <a :href="`/login`">click here</a>
                 .
               </p>
 
