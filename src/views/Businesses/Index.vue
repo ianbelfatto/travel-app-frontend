@@ -45,23 +45,7 @@
 
               <div class="col-md-8 col-xl-9">
                 <div class="card-body p-0">
-                  <ul class="list-inline list-inline-rating">
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="fa fa-star" aria-hidden="true"></i>
-                    </li>
-                    <li class="list-inline-item">
-                      <i class="far fa-star" aria-hidden="true"></i>
-                    </li>
-                  </ul>
+                  <p style="color: SteelBlue">★ {{ business.rating }}/5</p>
 
                   <div class="d-flex justify-content-between align-items-center mb-1">
                     <h3 class="card-title listing-title mb-0">
@@ -72,28 +56,28 @@
                       data-toggle="tooltip"
                       data-placement="top"
                       title="Favourite this listing"
-                    >
-                      <i class="far fa-heart text-primary" aria-hidden="true"></i>
-                      <span>8 k</span>
-                    </button>
+                    ></button>
                   </div>
                 </div>
                 <span class="d-block mb-4 listing-address">
                   {{ business.location.display_address[0] + "," + " " + business.location.display_address[1] }}
                 </span>
                 <span class="d-block mb-4 listing-address">
-                  <p>Open: {{ business.is_closed }}</p>
+                  <a :href="`${business.url}`" target="_blank">Business Link</a>
                 </span>
                 <span class="d-block mb-4 listing-address">
                   <p>Phone: {{ business.display_phone || "No Number Listed" }}</p>
                 </span>
-                <span>
-                  <div v-for="trip in trips" v-bind:key="trip.id">
-                    <i>{{ trip.name }}</i>
+                <div v-for="trip in trips" v-bind:key="trip.id">
+                  <div class="text-right">
+                    {{ trip.name }} &rarr;
+                    <button @click="addBusinessToTrip(trip, business)" class="btn btn-warning btn-sm">
+                      Add to This Trip
+                    </button>
                     <br />
-                    <button @click="addBusinessToTrip(trip, business)" class="btn btn-primary">Add to This Trip</button>
+                    <br />
                   </div>
-                </span>
+                </div>
               </div>
             </div>
           </div>
