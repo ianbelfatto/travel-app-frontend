@@ -8,7 +8,7 @@
     </section>
     <section class="bg-light py-5">
       <div class="container">
-        <h1>My Trips</h1>
+        <h2>My Trips</h2>
         <div class="search-result-bar mb-0">
           <div class="ml-md-auto d-flex align-items-center justify-content-between"></div>
         </div>
@@ -26,17 +26,14 @@
                 <div class="card-body p-0">
                   <div class="d-flex justify-content-between align-items-center mb-1">
                     <h3 class="card-title listing-title mb-0">
-                      <p>{{ trip.name }}</p>
+                      <h4>{{ trip.name }}</h4>
                     </h3>
                     <button
                       class="btn-like px-2"
                       data-toggle="tooltip"
                       data-placement="top"
                       title="Favourite this listing"
-                    >
-                      <i class="far fa-heart text-primary" aria-hidden="true"></i>
-                      <span>8 k</span>
-                    </button>
+                    ></button>
                   </div>
                   <span class="d-block mb-4 listing-address">City: {{ trip.city }}</span>
                   <span class="d-block mb-4 listing-address">State: {{ trip.state }}</span>
