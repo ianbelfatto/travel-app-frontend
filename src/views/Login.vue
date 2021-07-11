@@ -32,7 +32,7 @@
               <div class="card-footer bg-transparent text-center py-3">
                 <p class="mb-0">
                   Not a member yet?
-                  <a href="sign-up.html" class="link">Sign up</a>
+                  <a :href="`/signup`" class="link">Sign up</a>
                 </p>
               </div>
             </div>
