@@ -41,9 +41,7 @@
                     <em>Enter a new Cover Image URL for this trip.</em>
                   </div>
                   <div class="form-group d-flex justify-content-between align-items-center mb-7">
-                    <router-link :to="`/trips/${this.editTripParams.id}`" class="btn btn-secondary">
-                      Back to Current Trip
-                    </router-link>
+                    <router-link :to="`/trips/mytrips`" class="btn btn-secondary">Back to My Trips</router-link>
                     &nbsp;
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
@@ -70,6 +68,7 @@ export default {
     axios.get(`/trips/${this.$route.params.id}`).then((response) => {
       console.log("Trips Object", response.data);
       this.editTripParams = response.data;
+      console.log(this.editTripParams);
     });
   },
   methods: {
