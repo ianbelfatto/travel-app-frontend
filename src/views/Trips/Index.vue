@@ -3,12 +3,14 @@
     <section class="pt-md-10 sec-pb-70 pb-6 bg-white">
       <div class="section-title pt-md-8">
         <h1>Create a New Trip</h1>
+        <br />
+        <br />
         <router-link to="/trips" class="btn btn-primary">Create</router-link>
       </div>
     </section>
     <section class="bg-light py-5">
       <div class="container">
-        <h2>My Trips</h2>
+        <h2 style="text-align: center">My Trips</h2>
         <div class="search-result-bar mb-0">
           <div class="ml-md-auto d-flex align-items-center justify-content-between"></div>
         </div>
