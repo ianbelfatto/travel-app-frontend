@@ -3,13 +3,30 @@
     <section class="pt-md-10 sec-pb-70 pb-6 bg-light">
       <div class="section-title pt-md-8">
         <h1>Search for Businesses:</h1>
-        Term:
-        <input type="text" v-model="term" class="form-control" />
+        <div class="form-group">
+          Term:
+          <form v-on:submit.prevent="runSearch()">
+            <input
+              type="text"
+              v-model="term"
+              class="form-control"
+              placeholder="Enter a term or terms separated by commas (ex: coffee or bar, vegan)"
+            />
+            <br />
+            Location:
+            <input
+              type="text"
+              v-model="location"
+              class="form-control"
+              placeholder="Enter a location by city and state (ex: San Diego, CA)"
+            />
+            <br />
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+          </form>
+        </div>
         <br />
-        Location:
-        <input type="text" v-model="location" class="form-control" />
-        <br />
-        <button v-on:click="runSearch()" class="btn btn-primary">Search</button>
       </div>
     </section>
     <!-- BUSINESS SEARCH RESULTS -->
@@ -66,9 +83,20 @@
                   <a :href="`${business.url}`" target="_blank">Business Link</a>
                 </span>
                 <span class="d-block mb-4 listing-address">
+                  <p>Cost: {{ business.price || "No Cost" }}</p>
+                </span>
+                <span class="d-block mb-4 listing-address">
                   <p>Phone: {{ business.display_phone || "No Number Listed" }}</p>
                 </span>
-                <div v-for="trip in trips" v-bind:key="trip.id">
+                <div class="text-right">
+                  <select v-model="selectedTripId" id="">
+                    <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.name }}</option>
+                  </select>
+                  <button @click="addBusinessToTrip(selectedTripId, business)" class="btn btn-warning btn-sm">
+                    Add to This Trip
+                  </button>
+                </div>
+                <!-- <div v-for="trip in trips" v-bind:key="trip.id">
                   <div class="text-right">
                     {{ trip.name }} &rarr;
                     <button @click="addBusinessToTrip(trip, business)" class="btn btn-warning btn-sm">
@@ -77,7 +105,7 @@
                     <br />
                     <br />
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -96,6 +124,7 @@ export default {
       currentBusiness: {},
       term: "",
       location: "",
+      selectedTripId: "",
     };
   },
   created: function () {
@@ -117,9 +146,9 @@ export default {
         this.businesses = response.data;
       });
     },
-    addBusinessToTrip: function (trip, business) {
+    addBusinessToTrip: function (tripId, business) {
       const formData = new FormData();
-      formData.append("trip_id", trip.id);
+      formData.append("trip_id", tripId);
       formData.append("yelp_business_id", business.id);
       axios
         .post("/tripbusiness", formData)
@@ -133,7 +162,7 @@ export default {
         .catch((error) => {
           this.$notify({
             type: "error",
-            text: "Something went wrong...Business already exists in this trip.",
+            text: "Something went wrong...Business already exists in this trip OR trip not selected.",
             title: error,
           });
           this.errors = error.response.data.errors;
