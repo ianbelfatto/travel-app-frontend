@@ -3,10 +3,21 @@
     <section class="pt-md-10 sec-pb-70 pb-6 bg-light">
       <div class="section-title pt-md-8">
         <h1>Search for Events:</h1>
-        Location:
-        <input type="text" v-model="location" class="form-control" />
-        <br />
-        <button v-on:click="runSearch()" class="btn btn-primary">Search</button>
+        <div class="form-group">
+          Location:
+          <form v-on:submit.prevent="runSearch()">
+            <input
+              type="text"
+              v-model="location"
+              class="form-control"
+              placeholder="Enter a city and state (ex: Manhattan, NY)"
+            />
+            <br />
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+          </form>
+        </div>
       </div>
     </section>
     <section class="bg-light py-5">
@@ -57,6 +68,9 @@
                   {{ event.location.display_address[0] }}
                 </span>
                 <span class="d-block mb-4 listing-address">
+                  <a :href="`${event.event_site_url}`" target="_blank">Event Link</a>
+                </span>
+                <span class="d-block mb-4 listing-address">
                   <b>Start:</b>
                   {{ event.time_start | formatDate }}
                 </span>
@@ -71,15 +85,13 @@
                 <span class="d-block mb-4 listing-address">
                   {{ event.description }}
                 </span>
-                <div v-for="trip in trips" v-bind:key="trip.id">
-                  <div class="text-right">
-                    {{ trip.name }} &rarr;
-                    <button @click="addEventToTrip(trip, event)" class="btn btn-warning btn-sm">
-                      Add to This Trip
-                    </button>
-                    <br />
-                    <br />
-                  </div>
+                <div class="text-right">
+                  <select v-model="selectedTripId" id="">
+                    <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.name }}</option>
+                  </select>
+                  <button @click="addEventToTrip(selectedTripId, event)" class="btn btn-warning btn-sm">
+                    Add to This Trip
+                  </button>
                 </div>
               </div>
             </div>
@@ -98,6 +110,7 @@ export default {
       events: [],
       currentEvent: {},
       location: "",
+      selectedTripId: "",
     };
   },
   created: function () {
@@ -119,9 +132,9 @@ export default {
         this.events = response.data;
       });
     },
-    addEventToTrip: function (trip, event) {
+    addEventToTrip: function (tripId, event) {
       const formData = new FormData();
-      formData.append("trip_id", trip.id);
+      formData.append("trip_id", tripId);
       formData.append("yelp_event_id", event.id);
       axios
         .post("/tripevent", formData)
@@ -132,7 +145,7 @@ export default {
         .catch((error) => {
           this.$notify({
             type: "error",
-            text: "Something went wrong...Event already exists in this trip.",
+            text: "Something went wrong...Event already exists in this trip OR trip not selected.",
             title: error,
           });
           this.errors = error.response.data.errors;
