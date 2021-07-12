@@ -13,7 +13,6 @@
                   class="w-100 rounded rounded-md-left"
                   data-src="assets/img/user/profile_user.jpg"
                   :src="user.image_url"
-                  alt="profile-user.jpg"
                 />
               </div>
             </div>
@@ -31,7 +30,7 @@
                 &nbsp;
                 <button v-on:click="destroyUser()" class="btn btn-warning">Delete Account</button>
                 <!-- Edit User -->
-                <form v-on:submit.prevent="editUser()" v-on:submit="showEditUser = !showEditUser" v-if="showEditUser">
+                <form v-on:submit.prevent="editUser()" v-if="showEditUser">
                   <br />
                   <ul>
                     <li class="text-danger" v-for="error in errors" v-bind:key="error">
@@ -109,6 +108,8 @@ export default {
         .then((response) => {
           this.$notify({ type: "success", text: "Successfully edited User!" });
           console.log(response.data);
+          this.showEditUser = false;
+          this.errors = "";
         })
         .catch((error) => {
           this.$notify({ type: "error", text: "Something went wrong...", title: error });
