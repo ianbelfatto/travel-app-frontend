@@ -6,9 +6,10 @@
         <!-- <div class="spinner-grow text-primary" style="width: 5rem; height: 5rem" role="status" v-if="isLoading">
           <span class="sr-only">Loading...</span>
         </div> -->
-        <h2>{{ trip.name }}</h2>
-        <p>{{ trip.city }} {{ trip.state }}</p>
-        <span v-if="!isLoading">
+        <div v-if="!isLoading">
+          <h2>{{ trip.name }}</h2>
+          <p>{{ trip.city }} {{ trip.state }}</p>
+
           <router-link to="/trips/mytrips" class="btn btn-primary">Back to My Trips</router-link>
           &nbsp;
           <router-link :to="`/trips/${trip.id}/edit`" class="btn btn-primary">Edit This Trip</router-link>
@@ -17,16 +18,17 @@
           <br />
           <br />
           <!-- Twitter Share -->
-          <button
-            class="btn btn-outline-primary text-uppercase"
-            data-sharer="twitter"
-            :data-title="`Checkout my trip named: ${trip.name}`"
-            data-hashtags="trip,travel,itinerary,bars,restaurants,coffee"
-            :data-url="`https://www.localhost:8080/trips/${this.trip.id}`"
-          >
-            Share on Twitter
-          </button>
-        </span>
+        </div>
+        <button
+          v-bind:class="{ hidden: isLoading }"
+          class="btn btn-outline-primary text-uppercase"
+          data-sharer="twitter"
+          :data-title="`Checkout my trip named: ${trip.name}`"
+          data-hashtags="trip,travel,itinerary"
+          :data-url="`https://www.localhost:8080/trips/${this.trip.id}`"
+        >
+          Share on Twitter
+        </button>
       </div>
     </section>
     <!-- MAP LISTING -->
@@ -35,11 +37,20 @@
         <!-- Mapbox -->
 
         <div id="map">
-          <div class="d-flex justify-content-center">
-            <div class="spinner-grow text-primary" style="width: 5rem; height: 5rem" role="status" v-if="isLoading">
-              <span class="sr-only">Loading...</span>
+          <div class="container-fluid">
+            <div class="d-flex justify-content-center">
+              <div
+                class="spinner-border text-primary"
+                flex-column
+                align-items-center
+                style="width: 5rem; height: 5rem"
+                role="status"
+                v-if="isLoading"
+              ></div>
             </div>
           </div>
+          <br />
+          <b><p style="text-align: center">Loading your content, please wait...</p></b>
         </div>
       </div>
     </div>
@@ -67,7 +78,10 @@
             </div> -->
           </div>
         </div>
-        <h3>My Saved Businesses</h3>
+        <br />
+        <h3 style="text-align: center">My Saved Businesses</h3>
+        <br />
+        <br />
         <div v-for="trip_business in trip.trip_businesses" v-bind:key="trip_business.id">
           <div class="card card-list card-listing" data-lat="-33.922125" data-lag="151.159277" data-id="1">
             <div class="row">
@@ -97,16 +111,16 @@
                 <span class="d-block mb-4 listing-address">
                   <a :href="`${trip_business.business.url}`" target="_blank">Business Link</a>
                 </span>
-                <!-- <span class="d-block mb-4 listing-address">
-                  <p>Open Now: {{ trip_business.business.open | yesno }}</p>
-                </span> -->
+                <span class="d-block mb-4 listing-address">
+                  <p>Cost: {{ trip_business.business.cost || "No Cost Listed" }}</p>
+                </span>
                 <span class="d-block mb-4 listing-address">
                   <p>Phone: {{ trip_business.business.phone || "No Number Listed" }}</p>
                 </span>
                 <p class="mb-4">My Comments: {{ trip_business.comments }}</p>
                 <div>
                   <button
-                    v-on:click="showEditTripBusinessComments = !showEditTripBusinessComments"
+                    v-on:click="trip_business.edit_comments = !trip_business.edit_comments"
                     class="btn btn-primary"
                   >
                     Edit Comments
@@ -117,7 +131,7 @@
                   </button>
                   <form
                     v-on:submit.prevent="editTripBusinessComments(trip_business)"
-                    v-if="showEditTripBusinessComments"
+                    v-if="trip_business.edit_comments"
                   >
                     <div class="form-group">
                       <br />
@@ -141,7 +155,10 @@
           </div>
         </div>
         <br />
-        <h3>My Saved Events</h3>
+        <br />
+        <h3 style="text-align: center">My Saved Events</h3>
+        <br />
+        <br />
         <div v-for="trip_event in trip.trip_events" v-bind:key="trip_event.id">
           <div class="card card-list card-listing" data-lat="-33.922125" data-lag="151.159277" data-id="1">
             <div class="row">
@@ -181,32 +198,34 @@
                   <p class="mb-4">{{ trip_event.event.description }}</p>
                 </span>
                 <p class="mb-4">My Comments: {{ trip_event.comments }}</p>
-                <div>
+                <button v-on:click="trip_event.edit_comments = !trip_event.edit_comments" class="btn btn-primary">
+                  Edit Comments
+                </button>
+                <!-- <div>
                   <button v-on:click="showEditTripEventComments = !showEditTripEventComments" class="btn btn-primary">
                     Edit Comments
-                  </button>
-                  &nbsp;
-                  <button v-on:click="removeTripEventFromTrip(trip_event)" class="btn btn-primary">
-                    Remove Event from Trip
-                  </button>
-                  <form v-on:submit.prevent="editTripEventComments(trip_event)" v-if="showEditTripEventComments">
-                    <div class="form-group">
-                      <br />
-                      <textarea
-                        type="text"
-                        class="form-control"
-                        v-model="trip_event.comments"
-                        placeholder="Enter some comments about this event"
-                        rows="4"
-                        cols="50"
-                      />
-                      <br />
-                      <input type="submit" class="btn btn-primary" value="Submit" />
-                      <br />
-                      <br />
-                    </div>
-                  </form>
-                </div>
+                  </button> -->
+                &nbsp;
+                <button v-on:click="removeTripEventFromTrip(trip_event)" class="btn btn-primary">
+                  Remove Event from Trip
+                </button>
+                <form v-on:submit.prevent="editTripEventComments(trip_event)" v-if="trip_event.edit_comments">
+                  <div class="form-group">
+                    <br />
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      v-model="trip_event.comments"
+                      placeholder="Enter some comments about this event"
+                      rows="4"
+                      cols="50"
+                    />
+                    <br />
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                    <br />
+                    <br />
+                  </div>
+                </form>
               </div>
             </div>
           </div>
@@ -247,6 +266,9 @@
   height: 540px;
   margin: auto;
 }
+.hidden {
+  display: none;
+}
 </style>
 
 <script>
@@ -268,10 +290,12 @@ export default {
       isLoading: true,
     };
   },
+  mounted: function () {},
   created: function () {
     axios.get(`/trips/${this.$route.params.id}`).then((response) => {
       console.log("Trip object", response.data);
       this.trip = response.data;
+
       mapboxgl.accessToken =
         "pk.eyJ1IjoiaWJlbGZhdHRvIiwiYSI6ImNrcTExbnl2MjBhaXYyd2sxMnljeWc5aDgifQ.BAOYySyRiLY8iGwyugHqEw";
       var map = new mapboxgl.Map({
@@ -304,7 +328,6 @@ export default {
       });
 
       this.isLoading = false;
-
       window.Sharer.init();
     });
   },
@@ -321,14 +344,14 @@ export default {
     editTripBusinessComments: function (trip_business) {
       axios.patch(`/tripbusiness/${trip_business.id}}`, { comments: trip_business.comments }).then((response) => {
         console.log(response.data);
-        this.showEditTripBusinessComments = false;
+        trip_business.edit_comments = false;
         this.$notify({ type: "success", text: "Comments have been updated!" });
       });
     },
     editTripEventComments: function (trip_event) {
       axios.patch(`/tripevent/${trip_event.id}}`, { comments: trip_event.comments }).then((response) => {
         console.log(response.data);
-        this.showEditTripEventComments = false;
+        trip_event.edit_comments = false;
         this.$notify({ type: "success", text: "Comments have been updated!" });
       });
     },
