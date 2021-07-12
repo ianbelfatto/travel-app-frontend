@@ -35,7 +35,7 @@
                   <input type="email" class="form-control" placeholder="" required v-model="newUserParams.email" />
                 </div>
                 <div class="form-group mb-8">
-                  <label for="inputAddress">Profile Picture URL*</label>
+                  <label for="inputAddress">Profile Picture URL</label>
                   <input type="email" class="form-control" placeholder="" v-model="newUserParams.image_url" />
                 </div>
                 <div class="row">
@@ -114,6 +114,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.$router.push("/login");
+          this.$notify({ type: "success", text: "Account successfully created!" });
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
