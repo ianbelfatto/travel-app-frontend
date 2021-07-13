@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <!-- LOGIN -->
+    <!-- LOGIN PAGE -->
     <section class="py-7 py-md-10 bg-light">
       <div class="container">
         <div class="row justify-content-center">
@@ -40,21 +40,6 @@
         </div>
       </div>
     </section>
-    <!-- <form v-on:submit.prevent="submit()">
-      <h1>Login</h1>
-      <ul>
-        <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-      </ul>
-      <div>
-        <label>Email:</label>
-        <input type="email" v-model="email" />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" v-model="password" />
-      </div>
-      <input type="submit" value="Submit" />
-    </form> -->
   </div>
 </template>
 
@@ -87,6 +72,7 @@ export default {
         .catch((error) => {
           console.log(error.response);
           this.errors = ["Invalid email or password."];
+          this.$notify({ type: "error", text: "Something went wrong...", title: error });
           this.email = "";
           this.password = "";
         });
