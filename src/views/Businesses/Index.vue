@@ -33,23 +33,7 @@
     <section class="bg-light py-5">
       <div class="container">
         <div class="search-result-bar mb-0">
-          <div class="ml-md-auto d-flex align-items-center justify-content-between">
-            <!-- <div class="select-bg-transparent select-border">
-              <select class="select-location">
-                <option>Popular</option>
-                <option>Nearest</option>
-                <option>Recent</option>
-              </select>
-            </div> -->
-            <!-- <div class="icons">
-              <a class="mr-2" href="listing-grid-fullwidth.html">
-                <i class="fa fa-th" aria-hidden="true"></i>
-              </a>
-              <a class="active" href="listing-list-fullwidth.html">
-                <i class="fa fa-th-list" aria-hidden="true"></i>
-              </a>
-            </div> -->
-          </div>
+          <div class="ml-md-auto d-flex align-items-center justify-content-between"></div>
         </div>
         <div v-for="business in businesses" v-bind:key="business.id">
           <div class="card card-list card-listing" data-lat="-33.922125" data-lag="151.159277" data-id="1">
@@ -62,7 +46,13 @@
 
               <div class="col-md-8 col-xl-9">
                 <div class="card-body p-0">
-                  <p style="color: SteelBlue">★ {{ business.rating }}/5</p>
+                  <p style="color: SteelBlue">
+                    <b>
+                      {{ business.rating }} / 5
+                      <span style="color: gold">&#9733;</span>
+                      's
+                    </b>
+                  </p>
 
                   <div class="d-flex justify-content-between align-items-center mb-1">
                     <h3 class="card-title listing-title mb-0">
@@ -83,29 +73,31 @@
                   <a :href="`${business.url}`" target="_blank">Business Link</a>
                 </span>
                 <span class="d-block mb-4 listing-address">
-                  <p>Cost: {{ business.price || "No Cost" }}</p>
+                  <p>
+                    <b>Cost:</b>
+                    {{ business.price || "No Cost" }}
+                  </p>
                 </span>
                 <span class="d-block mb-4 listing-address">
-                  <p>Phone: {{ business.display_phone || "No Number Listed" }}</p>
+                  <p>
+                    <b>Phone:</b>
+                    {{ business.display_phone || "No Number Listed" }}
+                  </p>
                 </span>
-                <div class="text-right">
-                  <select v-model="selectedTripId" id="">
-                    <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.name }}</option>
-                  </select>
-                  <button @click="addBusinessToTrip(selectedTripId, business)" class="btn btn-warning btn-sm">
-                    Add to This Trip
-                  </button>
-                </div>
-                <!-- <div v-for="trip in trips" v-bind:key="trip.id">
-                  <div class="text-right">
-                    {{ trip.name }} &rarr;
-                    <button @click="addBusinessToTrip(trip, business)" class="btn btn-warning btn-sm">
+                <div align="right">
+                  <div class="input-group mb-4 w-75">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Select Trip</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" v-model="selectedTripId" data-width="50%">
+                      <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.name }}</option>
+                    </select>
+                    &nbsp;
+                    <button @click="addBusinessToTrip(selectedTripId, business)" class="btn btn-info btn-sm">
                       Add to This Trip
                     </button>
-                    <br />
-                    <br />
                   </div>
-                </div> -->
+                </div>
               </div>
             </div>
           </div>
@@ -129,10 +121,6 @@ export default {
   },
   created: function () {
     axios.all([
-      // axios.get(`/businesses/${this.$route.params.yelp_business_id}`).then((response) => {
-      //   console.log("business object", response.data);
-      //   this.business = response.data;
-      // }),
       axios.get("/trips").then((response) => {
         console.log("Trips array", response.data);
         this.trips = response.data;
@@ -155,9 +143,6 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.$notify({ type: "success", text: "Business has been added to the trip!" });
-          // setTimeout(() => {
-          //   this.$router.push(`/trips/${trip.id}`);
-          // }, 2000);
         })
         .catch((error) => {
           this.$notify({
