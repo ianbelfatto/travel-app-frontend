@@ -1,8 +1,6 @@
 <template>
   <div class="users-show">
-    <!-- ====================================
-———	USER PROFILE
-===================================== -->
+    <!-- USER SHOW -->
     <section class="bg-light py-7 py-md-10">
       <div class="container">
         <div class="bg-white rounded shadow mb-8">
@@ -26,10 +24,12 @@
                     <a href="mailto:info@listy.com">&nbsp;{{ user.email }}</a>
                   </li>
                 </ul>
+                <!-- EDIT USER BUTTON -->
                 <button v-on:click="showEditUser = !showEditUser" class="btn btn-primary">Edit Account</button>
                 &nbsp;
+                <!-- DELETE USER BUTTON -->
                 <button v-on:click="destroyUser()" class="btn btn-warning">Delete Account</button>
-                <!-- Edit User -->
+                <!-- EDIT USER FORM-->
                 <form v-on:submit.prevent="editUser()" v-if="showEditUser">
                   <br />
                   <ul>
