@@ -55,9 +55,9 @@
                 <img src="/assets/img/plnnr-ftr-2.png" alt="" />
               </a>
               <p class="text-muted pt-1 pb-3">
-                PLNNR was developed by Ian Belfatto as part of the Actualize Coding Bootcamp. It utilizes a Rails
-                backend, and a Vue.js frontend with HTML, CSS, SCSS, and Javascript elements. Also built using YELP
-                Fusion API and Mapbox.
+                PLNNR was developed by Ian Belfatto as part of the Actualize Coding Bootcamp. PLNNR is built on a Rails
+                backend, and a Vue.js frontend with Bootstrap, HTML, CSS, SCSS, and Javascript elements. PLNNR was also
+                built using YELP Fusion API, Mapbox GL JS, axios, moment.js,sharer.js, and vue-notifications.
               </p>
               <ul class="list-unstyled text-muted">
                 <li class="mb-3">
