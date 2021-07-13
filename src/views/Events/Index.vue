@@ -23,23 +23,7 @@
     <section class="bg-light py-5">
       <div class="container">
         <div class="search-result-bar mb-0">
-          <div class="ml-md-auto d-flex align-items-center justify-content-between">
-            <!-- <div class="select-bg-transparent select-border">
-              <select class="select-location">
-                <option>Popular</option>
-                <option>Nearest</option>
-                <option>Recent</option>
-              </select>
-            </div> -->
-            <!-- <div class="icons">
-              <a class="mr-2" href="listing-grid-fullwidth.html">
-                <i class="fa fa-th" aria-hidden="true"></i>
-              </a>
-              <a class="active" href="listing-list-fullwidth.html">
-                <i class="fa fa-th-list" aria-hidden="true"></i>
-              </a>
-            </div> -->
-          </div>
+          <div class="ml-md-auto d-flex align-items-center justify-content-between"></div>
         </div>
         <div v-for="event in events" v-bind:key="event.id">
           <div class="card card-list card-listing" data-lat="-33.922125" data-lag="151.159277" data-id="1">
@@ -85,13 +69,20 @@
                 <span class="d-block mb-4 listing-address">
                   {{ event.description }}
                 </span>
-                <div class="text-right">
-                  <select v-model="selectedTripId" id="">
-                    <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.name }}</option>
-                  </select>
-                  <button @click="addEventToTrip(selectedTripId, event)" class="btn btn-warning btn-sm">
-                    Add to This Trip
-                  </button>
+
+                <div align="right">
+                  <div class="input-group mb-4 w-75">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01">Select Trip</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" v-model="selectedTripId" data-width="50%">
+                      <option v-for="trip in trips" v-bind:key="trip.id" :value="trip.id">{{ trip.name }}</option>
+                    </select>
+                    &nbsp;
+                    <button @click="addEventToTrip(selectedTripId, event)" class="btn btn-info btn-sm">
+                      Add to This Trip
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -115,10 +106,6 @@ export default {
   },
   created: function () {
     axios.all([
-      // axios.get(`/events/${this.$route.params.yelp_event_id}`).then((response) => {
-      //   console.log("event object", response.data);
-      //   this.event = response.data;
-      // }),
       axios.get("/trips").then((response) => {
         console.log("Trips array", response.data);
         this.trips = response.data;
