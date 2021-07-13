@@ -1,6 +1,7 @@
 <template>
   <div class="trips-index">
     <section class="pt-md-10 sec-pb-70 pb-6 bg-white">
+      <!-- CREATE A TRIP -->
       <div class="section-title pt-md-8">
         <h1>Create a New Trip</h1>
         <br />
@@ -10,6 +11,7 @@
     </section>
     <section class="bg-light py-5">
       <div class="container">
+        <!-- USER TRIPS -->
         <h2 style="text-align: center">My Trips</h2>
         <div class="search-result-bar mb-0">
           <div class="ml-md-auto d-flex align-items-center justify-content-between"></div>
@@ -39,19 +41,23 @@
                   </div>
                   <span class="d-block mb-4 listing-address">City: {{ trip.city }}</span>
                   <span class="d-block mb-4 listing-address">State: {{ trip.state }}</span>
-                  <div>
-                    <router-link :to="`/trips/${trip.id}`" class="btn btn-primary">More Info</router-link>
+                  <br />
+                  <div v-if="trip.trip_businesses.length > 0">
+                    <router-link :to="`/trips/${trip.id}`" class="btn btn-primary btn-sm">More Info</router-link>
+                    &nbsp;
+                    <router-link :to="`/trips/${trip.id}/edit`" class="btn btn-primary btn-sm">
+                      Edit This Trip
+                    </router-link>
+                  </div>
+                  <div v-else>
+                    <h6>Begin by adding a business to your trip:</h6>
+                    <router-link :to="`/businesses`" class="btn btn-warning btn-sm">Business</router-link>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- <h2>{{ trip.name }}</h2>
-        <img :src="trip.image_url" alt="" />
-        <p>City: {{ trip.city }}</p>
-        <p>State: {{ trip.state }}</p>
-        <router-link :to="`/trips/${trip.id}`">More Info</router-link> -->
       </div>
     </section>
   </div>
