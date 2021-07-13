@@ -13,6 +13,9 @@
               </p>
 
               <form class="py-7" action="#" v-on:submit.prevent="submit()">
+                <ul>
+                  <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+                </ul>
                 <h3 class="h4 font-weight-normal mb-4">Account Information</h3>
                 <div class="row">
                   <div class="form-group col-md-6">
@@ -61,40 +64,6 @@
       </div>
     </section>
   </div>
-
-  <!-- <form v-on:submit.prevent="submit()">
-      <h1>Signup</h1>
-      <ul>
-        <li class="text-danger" v-for="error in errors" v-bind:key="error">
-          {{ error }}
-        </li>
-      </ul>
-      <div class="form-group">
-        <label>First Name:</label>
-        <input type="text" class="form-control" v-model="newUserParams.first_name" />
-      </div>
-      <div class="form-group">
-        <label>Last Name:</label>
-        <input type="text" class="form-control" v-model="newUserParams.last_name" />
-      </div>
-      <div class="form-group">
-        <label>Email:</label>
-        <input type="email" class="form-control" v-model="newUserParams.email" />
-      </div>
-      <div class="form-group">
-        <label>Profile Picture URL:</label>
-        <input type="text" class="form-control" v-model="newUserParams.image_url" />
-      </div>
-      <div class="form-group">
-        <label>Password:</label>
-        <input type="password" class="form-control" v-model="newUserParams.password" />
-      </div>
-      <div class="form-group">
-        <label>Password confirmation:</label>
-        <input type="password" class="form-control" v-model="newUserParams.password_confirmation" />
-      </div>
-      <input type="submit" class="btn btn-primary" value="Submit" />
-    </form> -->
 </template>
 
 <script>
@@ -117,6 +86,7 @@ export default {
           this.$notify({ type: "success", text: "Account successfully created!" });
         })
         .catch((error) => {
+          this.$notify({ type: "error", text: "Something went wrong...", title: error });
           this.errors = error.response.data.errors;
         });
     },
