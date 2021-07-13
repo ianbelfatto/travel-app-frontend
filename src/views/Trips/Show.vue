@@ -2,40 +2,33 @@
   <div class="trips-show" data-role="page">
     <section class="pt-md-10 sec-pb-70 pb-6 bg-light">
       <div class="section-title pt-md-8">
-        <!-- {{ isLoading }} -->
-        <!-- <div class="spinner-grow text-primary" style="width: 5rem; height: 5rem" role="status" v-if="isLoading">
-          <span class="sr-only">Loading...</span>
-        </div> -->
         <div v-if="!isLoading">
           <h2>{{ trip.name }}</h2>
           <p>{{ trip.city }} {{ trip.state }}</p>
 
-          <router-link to="/trips/mytrips" class="btn btn-primary">Back to My Trips</router-link>
+          <router-link to="/trips/mytrips" class="btn btn-primary btn-md">Back to My Trips</router-link>
           &nbsp;
-          <router-link :to="`/trips/${trip.id}/edit`" class="btn btn-primary">Edit This Trip</router-link>
-          &nbsp;
-          <button class="btn btn-primary" v-on:click="destroyTrip()">Delete This Trip</button>
+          <button class="btn btn-warning" v-on:click="destroyTrip()">Delete This Trip</button>
           <br />
           <br />
-          <!-- Twitter Share -->
         </div>
+        <!-- TWITTER SHARE -->
         <button
           v-bind:class="{ hidden: isLoading }"
-          class="btn btn-outline-primary text-uppercase"
+          class="btn btn-info btn-md text-uppercase"
           data-sharer="twitter"
           :data-title="`Checkout my trip named: ${trip.name}`"
           data-hashtags="trip,travel,itinerary"
           :data-url="`https://www.localhost:8080/trips/${this.trip.id}`"
         >
-          Share on Twitter
+          &nbsp; Share on Twitter &nbsp;
         </button>
       </div>
     </section>
     <!-- MAP LISTING -->
     <div class="map-container bg-light">
       <div id="listing-main-map" class="map-half map-listing-full">
-        <!-- Mapbox -->
-
+        <!-- MAPBOX AREA AND LOADING CIRCLE-->
         <div id="map">
           <div class="container-fluid">
             <div class="d-flex justify-content-center">
@@ -54,29 +47,11 @@
         </div>
       </div>
     </div>
-    <!-- ====================================
-———	CATEGORY LIST FULLWIDTH
-===================================== -->
+    <!-- BUSINESS & EVENT LISTINGS -->
     <section class="bg-light py-5">
       <div class="container" v-if="!isLoading">
         <div class="search-result-bar mb-0">
-          <div class="ml-md-auto d-flex align-items-center justify-content-between">
-            <!-- <div class="select-bg-transparent select-border">
-              <select class="select-location">
-                <option>Popular</option>
-                <option>Nearest</option>
-                <option>Recent</option>
-              </select>
-            </div> -->
-            <!-- <div class="icons">
-              <a class="mr-2" href="listing-grid-fullwidth.html">
-                <i class="fa fa-th" aria-hidden="true"></i>
-              </a>
-              <a class="active" href="listing-list-fullwidth.html">
-                <i class="fa fa-th-list" aria-hidden="true"></i>
-              </a>
-            </div> -->
-          </div>
+          <div class="ml-md-auto d-flex align-items-center justify-content-between"></div>
         </div>
         <br />
         <h3 style="text-align: center">My Saved Businesses</h3>
@@ -93,6 +68,14 @@
 
               <div class="col-md-8 col-xl-9">
                 <div class="card-body p-0">
+                  <p style="color: SteelBlue">
+                    <b>
+                      {{ trip_business.business.rating }} / 5
+                      <span style="color: gold">&#9733;</span>
+                      's
+                    </b>
+                  </p>
+
                   <div class="d-flex justify-content-between align-items-center mb-1">
                     <h3 class="card-title listing-title mb-0">
                       <p>{{ trip_business.business.name }}</p>
@@ -109,15 +92,24 @@
                   {{ trip_business.business.location[0] + "," + " " + trip_business.business.location[1] }}
                 </span>
                 <span class="d-block mb-4 listing-address">
-                  <a :href="`${trip_business.business.url}`" target="_blank">Business Link</a>
+                  <a :href="`${trip_business.business.business_link}`" target="_blank">Business Link</a>
                 </span>
                 <span class="d-block mb-4 listing-address">
-                  <p>Cost: {{ trip_business.business.cost || "No Cost Listed" }}</p>
+                  <p>
+                    <b>Cost:</b>
+                    {{ trip_business.business.cost || "No Cost Listed" }}
+                  </p>
                 </span>
                 <span class="d-block mb-4 listing-address">
-                  <p>Phone: {{ trip_business.business.phone || "No Number Listed" }}</p>
+                  <p>
+                    <b>Phone: &nbsp;</b>
+                    <a :href="`tel:${trip_business.business.phone}`">{{ trip_business.business.phone }}</a>
+                  </p>
                 </span>
-                <p class="mb-4">My Comments: {{ trip_business.comments }}</p>
+                <p class="mb-4">
+                  <b>My Comments:</b>
+                  {{ trip_business.comments }}
+                </p>
                 <div>
                   <button
                     v-on:click="trip_business.edit_comments = !trip_business.edit_comments"
@@ -185,26 +177,29 @@
                 <span class="d-block mb-4 listing-address">
                   {{ trip_event.event.location[0] }}
                 </span>
-                <!-- <span class="d-block mb-4 listing-address">
-                  {{ trip_event.event.time_start | formatDate }}
-                </span> -->
+                <span class="d-block mb-4 listing-address">
+                  <b>Start:</b>
+                  {{ trip_event.event.starts | formatDate }}
+                </span>
                 <span class="d-block mb-4 listing-address">
                   <a :href="`${trip_event.event.event_link}`" target="_blank">Event Link</a>
                 </span>
                 <span class="d-block mb-4 listing-address">
-                  <p>$ - {{ trip_event.event.cost || "Free/No Price Listed" }}</p>
+                  <p>
+                    <b>$</b>
+                    - {{ trip_event.event.cost || "Free/No Price Listed" }}
+                  </p>
                 </span>
                 <span class="d-block mb-4 listing-address">
                   <p class="mb-4">{{ trip_event.event.description }}</p>
                 </span>
-                <p class="mb-4">My Comments: {{ trip_event.comments }}</p>
+                <p class="mb-4">
+                  <b>My Comments:</b>
+                  {{ trip_event.comments }}
+                </p>
                 <button v-on:click="trip_event.edit_comments = !trip_event.edit_comments" class="btn btn-primary">
                   Edit Comments
                 </button>
-                <!-- <div>
-                  <button v-on:click="showEditTripEventComments = !showEditTripEventComments" class="btn btn-primary">
-                    Edit Comments
-                  </button> -->
                 &nbsp;
                 <button v-on:click="removeTripEventFromTrip(trip_event)" class="btn btn-primary">
                   Remove Event from Trip
@@ -231,31 +226,6 @@
           </div>
         </div>
       </div>
-
-      <!-- ====================================
-———	pagination
-===================================== -->
-      <!-- <section class="my-5">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item mr-2">
-                <a class="page-link" href="javascript:void(0)">
-                  <i class="fa fa-angle-left" aria-hidden="true"></i>
-                </a>
-              </li>
-              <li class="page-item active mr-2"><a class="page-link" href="javascript:void(0)">1</a></li>
-              <li class="page-item mr-2"><a class="page-link" href="javascript:void(0)">2</a></li>
-              <li class="page-item mr-2"><a class="page-link" href="javascript:void(0)">3</a></li>
-              <li class="page-item mr-2"><a class="page-link" href="javascript:void(0)">4</a></li>
-              <li class="page-item mr-2"><a class="page-link" href="javascript:void(0)">5</a></li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">
-                  <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </section> -->
     </section>
   </div>
 </template>
@@ -312,18 +282,31 @@ export default {
       this.trip.trip_businesses.forEach((place) => {
         // console.log(place.business.coordinates);
         var businessCoords = [place.business.coordinates[1], place.business.coordinates[0]];
-        var businessDetails = ["Name: " + place.business.name + " " + "Location: " + place.business.location];
-        var businessDetailsPopup = new mapboxgl.Popup({ offset: 25 }).setText(businessDetails).addTo(map);
-        new mapboxgl.Marker({ color: "yellow" }).setLngLat(businessCoords).setPopup(businessDetailsPopup).addTo(map);
+        var businessName = [place.business.name];
+        var businessLocation = [place.business.location];
+        var businessDetailsPopup = new mapboxgl.Popup({ offset: 25 })
+          .setHTML("<h5>" + businessName + "</h5><p>" + businessLocation + "</p>")
+          .addTo(map);
+        new mapboxgl.Marker({ color: "#03045E", rotation: 45 })
+          .setLngLat(businessCoords)
+          .setPopup(businessDetailsPopup)
+          .addTo(map);
         // console.log("place", place.business.name);
       });
 
       this.trip.trip_events.forEach((place) => {
         // console.log(place.business.coordinates);
         var eventCoords = [place.event.coordinates[1], place.event.coordinates[0]];
-        var eventDetails = ["Name: " + place.event.name + " " + "Location: " + place.event.location];
-        var eventDetailsPopup = new mapboxgl.Popup({ offset: 25 }).setText(eventDetails).addTo(map);
-        new mapboxgl.Marker({ color: "blue" }).setLngLat(eventCoords).setPopup(eventDetailsPopup).addTo(map);
+        var eventName = [place.event.name];
+        var eventLocation = [place.event.location];
+        // var eventDetails = ["Name: " + place.event.name + " " + "Location: " + place.event.location];
+        var eventDetailsPopup = new mapboxgl.Popup({ offset: 25 })
+          .setHTML("<h5>" + eventName + "</h5><p>" + eventLocation + "</p>")
+          .addTo(map);
+        new mapboxgl.Marker({ color: "#CAF0F8", rotation: 245 })
+          .setLngLat(eventCoords)
+          .setPopup(eventDetailsPopup)
+          .addTo(map);
         // console.log("place", place.business.name);
       });
 
