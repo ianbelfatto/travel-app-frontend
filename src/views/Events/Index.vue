@@ -20,11 +20,13 @@
         </div>
       </div>
     </section>
+    <!-- EVENT SEARCH RESULTS -->
     <section class="bg-light py-5">
       <div class="container">
         <div class="search-result-bar mb-0">
           <div class="ml-md-auto d-flex align-items-center justify-content-between"></div>
         </div>
+        <hr v-show="events[0]" />
         <div v-for="event in events" v-bind:key="event.id">
           <div class="card card-list card-listing" data-lat="-33.922125" data-lag="151.159277" data-id="1">
             <div class="row">
