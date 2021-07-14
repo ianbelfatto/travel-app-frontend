@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <section class="pt-md-10 sec-pb-50 pb-6 bg-white">
-      <div class="section-title pt-md-8">
+    <section class="pt-md-10 sec-pb-50 pb-6 bg-light">
+      <div class="section-title pt-md-0">
         <img src="/assets/img/welcome-to-2.png" alt="" />
         <img src="/assets/img/plnnr-desc.png" alt="" />
         <br />
