@@ -3,10 +3,16 @@
     <section class="pt-md-10 sec-pb-70 pb-6 bg-white">
       <!-- CREATE A TRIP -->
       <div class="section-title pt-md-8">
-        <h1>Create a New Trip</h1>
+        <h1>
+          Create a New Trip &nbsp;
+
+          <router-link to="/trips" class="btn btn-success btn-sm">
+            <i class="fas fa-plus"></i>
+          </router-link>
+        </h1>
+        <!-- <br />
         <br />
-        <br />
-        <router-link to="/trips" class="btn btn-primary">Create</router-link>
+        <router-link to="/trips" class="btn btn-primary">Create</router-link> -->
       </div>
     </section>
     <section class="bg-light py-5">
@@ -22,7 +28,9 @@
             <div class="row">
               <div class="col-md-4 col-xl-3">
                 <div class="card-list-img">
-                  <img class="listing-img" :src="trip.image_url" alt="" />
+                  <router-link :to="`/trips/${trip.id}`">
+                    <img class="listing-img" :src="trip.image_url" alt="" />
+                  </router-link>
                 </div>
               </div>
 
@@ -30,7 +38,9 @@
                 <div class="card-body p-0">
                   <div class="d-flex justify-content-between align-items-center mb-1">
                     <h3 class="card-title listing-title mb-0">
-                      <h4>{{ trip.name }}</h4>
+                      <h4>
+                        {{ trip.name }}
+                      </h4>
                     </h3>
                     <button
                       class="btn-like px-2"
@@ -50,8 +60,14 @@
                     </router-link>
                   </div>
                   <div v-else>
-                    <h6>Begin by adding a business to your trip:</h6>
+                    <h6>Add a Business or Edit Your Trip:</h6>
                     <router-link :to="`/businesses`" class="btn btn-warning btn-sm">Business</router-link>
+                    &nbsp;
+                    <router-link :to="`/trips/${trip.id}`" class="btn btn-primary btn-sm">More Info</router-link>
+                    &nbsp;
+                    <router-link :to="`/trips/${trip.id}/edit`" class="btn btn-primary btn-sm">
+                      Edit This Trip
+                    </router-link>
                   </div>
                 </div>
               </div>
