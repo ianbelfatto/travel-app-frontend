@@ -3,25 +3,34 @@
     <section class="pt-md-10 sec-pb-70 pb-6 bg-light">
       <div class="section-title pt-md-8">
         <div v-if="!isLoading">
-          <h2>{{ trip.name }}</h2>
+          <br />
+          <h2>
+            {{ trip.name }}
+            &nbsp;
+            <button type="button" class="btn btn-danger btn-sm" v-on:click="destroyTrip()">
+              <i class="fas fa-trash"></i>
+            </button>
+          </h2>
+
           <p>{{ trip.city }} {{ trip.state }}</p>
 
-          <router-link to="/trips/mytrips" class="btn btn-primary btn-md">Back to My Trips</router-link>
-          &nbsp;
-          <button class="btn btn-warning" v-on:click="destroyTrip()">Delete This Trip</button>
-          <br />
+          <!-- <router-link to="/trips/mytrips" class="btn btn-primary btn-md">Back to My Trips</router-link>
+          &nbsp; -->
+
           <br />
         </div>
         <!-- TWITTER SHARE -->
         <button
           v-bind:class="{ hidden: isLoading }"
-          class="btn btn-info btn-md text-uppercase"
+          class="btn btn-info btn-sm text-uppercase"
           data-sharer="twitter"
           :data-title="`Checkout my trip named: ${trip.name}`"
           data-hashtags="trip,travel,itinerary"
           :data-url="`https://www.localhost:8080/trips/${this.trip.id}`"
         >
-          &nbsp; Share on Twitter &nbsp;
+          <!-- &nbsp; Share on Twitter &nbsp; -->
+          <i class="fab fa-twitter"></i>
+          Share
         </button>
       </div>
     </section>
@@ -118,9 +127,7 @@
                     Edit Comments
                   </button>
                   &nbsp;
-                  <button v-on:click="removeTripBusinessFromTrip(trip_business)" class="btn btn-primary">
-                    Remove Business from Trip
-                  </button>
+                  <button v-on:click="removeTripBusinessFromTrip(trip_business)" class="btn btn-warning">Remove</button>
                   <form
                     v-on:submit.prevent="editTripBusinessComments(trip_business)"
                     v-if="trip_business.edit_comments"
@@ -201,9 +208,7 @@
                   Edit Comments
                 </button>
                 &nbsp;
-                <button v-on:click="removeTripEventFromTrip(trip_event)" class="btn btn-primary">
-                  Remove Event from Trip
-                </button>
+                <button v-on:click="removeTripEventFromTrip(trip_event)" class="btn btn-warning">Remove</button>
                 <form v-on:submit.prevent="editTripEventComments(trip_event)" v-if="trip_event.edit_comments">
                   <div class="form-group">
                     <br />
@@ -303,7 +308,7 @@ export default {
         var eventDetailsPopup = new mapboxgl.Popup({ offset: 25 })
           .setHTML("<h5>" + eventName + "</h5><p>" + eventLocation + "</p>")
           .addTo(map);
-        new mapboxgl.Marker({ color: "#CAF0F8", rotation: 245 })
+        new mapboxgl.Marker({ color: "#FFD700", rotation: 245 })
           .setLngLat(eventCoords)
           .setPopup(eventDetailsPopup)
           .addTo(map);
