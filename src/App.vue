@@ -15,7 +15,7 @@
                   <router-link to="/" v-if="!isLoggedIn()">Home</router-link>
                 </li>
                 <li class="active">
-                  <router-link to="/trips/mytrips" v-if="isLoggedIn()">Trips</router-link>
+                  <router-link to="/trips/mytrips" v-if="isLoggedIn()">&#128506; &nbsp; &nbsp;Trips</router-link>
                 </li>
                 <li class="active">
                   <router-link to="/signup" v-if="!isLoggedIn()">Signup</router-link>
@@ -24,16 +24,18 @@
                   <router-link to="/login" v-if="!isLoggedIn()">Login</router-link>
                 </li>
                 <li class="active">
-                  <router-link to="/businesses" v-if="isLoggedIn()">Search for a Business</router-link>
+                  <router-link to="/businesses" v-if="isLoggedIn()">
+                    &#128270; &nbsp; &nbsp; Search Businesses
+                  </router-link>
                 </li>
                 <li class="active">
-                  <router-link to="/events" v-if="isLoggedIn()">Search for an Event</router-link>
+                  <router-link to="/events" v-if="isLoggedIn()">&#128270; &nbsp; &nbsp; Search Events</router-link>
                 </li>
                 <li class="active">
-                  <router-link :to="`/users/me`" v-if="isLoggedIn()">User</router-link>
+                  <router-link :to="`/users/me`" v-if="isLoggedIn()">&#128100; &nbsp; &nbsp;User</router-link>
                 </li>
                 <li class="active">
-                  <router-link to="/logout" v-if="isLoggedIn()">Logout</router-link>
+                  <router-link to="/logout" v-if="isLoggedIn()">&#128075; &nbsp; &nbsp;Logout</router-link>
                 </li>
               </ul>
             </div>
@@ -47,12 +49,13 @@
       <notifications position="bottom right" />
 
       <!-- FOOTER -->
-      <footer class="pt-7 pt-md-10 bg-white">
+      <footer class="pt-7 pt-md-8 bg-white">
         <div class="container">
+          <!-- <hr /> -->
           <div class="row">
             <div class="col-sm-7 col-xs-12">
               <a class="d-inline-block mb-6" :href="`/`">
-                <img src="/assets/img/plnnr-ftr-2.png" alt="" />
+                <img src="/assets/img/plnnr-ftr-2.png" alt="" style="opacity: 0.7" />
               </a>
               <p class="text-muted pt-1 pb-3">
                 PLNNR was developed by Ian Belfatto as part of the Actualize Coding Bootcamp. PLNNR is built on a Rails
