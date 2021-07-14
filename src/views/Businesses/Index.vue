@@ -10,7 +10,7 @@
               type="text"
               v-model="term"
               class="form-control"
-              placeholder="Enter a term or terms separated by commas (ex: coffee or bar, vegan)"
+              placeholder="Enter a term or terms separated by commas (ex: 'coffee' or 'bar, vegan' or 'arcade')"
             />
             <br />
             Location:
@@ -35,6 +35,7 @@
         <div class="search-result-bar mb-0">
           <div class="ml-md-auto d-flex align-items-center justify-content-between"></div>
         </div>
+        <hr v-show="businesses[0]" />
         <div v-for="business in businesses" v-bind:key="business.id">
           <div class="card card-list card-listing" data-lat="-33.922125" data-lag="151.159277" data-id="1">
             <div class="row">
