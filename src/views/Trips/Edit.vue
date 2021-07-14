@@ -6,22 +6,24 @@
           <div class="col-md-6 col-lg-5">
             <div class="container-fluid">
               <div class="d-flex justify-content-center">
-                <div
+                <!-- LOADING CIRCLE -->
+                <!-- <div
                   class="spinner-border text-primary"
                   flex-column
                   align-items-center
                   style="width: 5rem; height: 5rem"
                   role="status"
                   v-if="isLoading"
-                ></div>
+                ></div> -->
               </div>
-              <div v-if="isLoading">
+              <!-- LOADING CIRCLE TEXT -->
+              <!-- <div v-if="isLoading">
                 <br />
                 <b><p style="text-align: center">Loading your content, please wait...</p></b>
-              </div>
+              </div> -->
             </div>
 
-            <div v-if="!isLoading">
+            <div>
               <div class="card">
                 <div class="bg-primary text-center py-4">
                   <h2 class="text-white mb-0 h4">Edit Trip</h2>
@@ -84,7 +86,7 @@ export default {
     };
   },
   created: function () {
-    axios.get(`/trips/${this.$route.params.id}`).then((response) => {
+    axios.get(`/trips/${this.$route.params.id}?q=edit`).then((response) => {
       console.log("Trips Object", response.data);
       this.editTripParams = response.data;
       console.log(this.editTripParams);
