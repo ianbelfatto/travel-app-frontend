@@ -41,7 +41,7 @@
                     <em>Enter a Cover Image URL for this trip.</em>
                   </div>
                   <div class="form-group d-flex justify-content-between align-items-center mb-7">
-                    <router-link :to="`/trips/mytrips`" class="btn btn-secondary">Back to My Trips</router-link>
+                    <router-link :to="`/trips/mytrips`" class="btn btn-secondary">Back to Trips</router-link>
                     &nbsp;
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
