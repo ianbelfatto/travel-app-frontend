@@ -63,7 +63,9 @@
           <div class="ml-md-auto d-flex align-items-center justify-content-between"></div>
         </div>
         <br />
-        <h3 style="text-align: center">My Saved Businesses</h3>
+        <h3 style="text-align: center">
+          <u><i>My Saved Businesses</i></u>
+        </h3>
         <br />
         <br />
         <div v-for="trip_business in trip.trip_businesses" v-bind:key="trip_business.id">
@@ -155,7 +157,9 @@
         </div>
         <br />
         <br />
-        <h3 style="text-align: center">My Saved Events</h3>
+        <h3 style="text-align: center">
+          <u><i>My Saved Events</i></u>
+        </h3>
         <br />
         <br />
         <div v-for="trip_event in trip.trip_events" v-bind:key="trip_event.id">
