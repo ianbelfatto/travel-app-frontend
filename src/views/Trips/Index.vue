@@ -60,7 +60,7 @@
                     </router-link>
                   </div>
                   <div v-else>
-                    <h6>Add a Business or Edit Your Trip:</h6>
+                    <h6>Add a business or edit your trip to get started:</h6>
                     <router-link :to="`/businesses`" class="btn btn-warning btn-sm">Business</router-link>
                     &nbsp;
                     <router-link :to="`/trips/${trip.id}/edit`" class="btn btn-primary btn-sm">
