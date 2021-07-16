@@ -59,7 +59,7 @@
           <!-- <hr /> -->
           <div class="row">
             <div class="col-sm-7 col-xs-12">
-              <a class="d-inline-block mb-6" :href="`/`">
+              <a class="d-inline-block mb-3" :href="`/`">
                 <img src="/assets/img/plnnr-ftr-2.png" alt="" style="opacity: 1" />
               </a>
               <p class="text-white pt-1 pb-3">
