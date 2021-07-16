@@ -1,11 +1,12 @@
 <template>
   <div class="trips-index">
-    <section class="pt-md-10 sec-pb-70 pb-6 bg-white">
+    <section class="pt-md-50 sec-pb-100 pb-6 bg-white">
       <!-- CREATE A TRIP -->
       <div class="section-title pt-md-8">
         <h1>
-          Create a New Trip &nbsp;
-
+          <img :src="`/assets/img/create-a-trip.png`" />
+          &nbsp;
+          <br />
           <router-link to="/trips" class="btn btn-success btn-sm">
             <i class="fas fa-plus"></i>
           </router-link>
